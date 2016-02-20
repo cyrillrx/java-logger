@@ -1,6 +1,4 @@
-package com.cyrillrx.android.logger;
-
-import android.support.annotation.NonNull;
+package com.cyrillrx.logger;
 
 /**
  * A {@link LogChild} wrapper aware of the log severity level.
@@ -11,71 +9,91 @@ import android.support.annotation.NonNull;
 public abstract class LogWrapper implements LogChild {
 
     @Severity.LogSeverity
-    private final int      mSeverity;
+    private final int mSeverity;
     private final LogChild mWrapped;
 
-    public LogWrapper(@Severity.LogSeverity int severity, @NonNull LogChild logger) {
+    public LogWrapper(@Severity.LogSeverity int severity, LogChild logger) {
         mSeverity = severity;
         mWrapped = logger;
     }
 
     @Override
     public void verbose(String tag, String message) {
-        if (mSeverity < Severity.VERBOSE) { return; }
+        if (mSeverity < Severity.VERBOSE) {
+            return;
+        }
         mWrapped.verbose(tag, message);
     }
 
     @Override
     public void verbose(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.VERBOSE) { return; }
+        if (mSeverity < Severity.VERBOSE) {
+            return;
+        }
         mWrapped.verbose(tag, message, throwable);
     }
 
     @Override
     public void debug(String tag, String message) {
-        if (mSeverity < Severity.DEBUG) { return; }
+        if (mSeverity < Severity.DEBUG) {
+            return;
+        }
         mWrapped.debug(tag, message);
     }
 
     @Override
     public void debug(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.DEBUG) { return; }
+        if (mSeverity < Severity.DEBUG) {
+            return;
+        }
         mWrapped.debug(tag, message, throwable);
     }
 
     @Override
     public void info(String tag, String message) {
-        if (mSeverity < Severity.INFO) { return; }
+        if (mSeverity < Severity.INFO) {
+            return;
+        }
         mWrapped.info(tag, message);
     }
 
     @Override
     public void info(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.INFO) { return; }
+        if (mSeverity < Severity.INFO) {
+            return;
+        }
         mWrapped.info(tag, message, throwable);
     }
 
     @Override
     public void warning(String tag, String message) {
-        if (mSeverity < Severity.WARN) { return; }
+        if (mSeverity < Severity.WARN) {
+            return;
+        }
         mWrapped.warning(tag, message);
     }
 
     @Override
     public void warning(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.WARN) { return; }
+        if (mSeverity < Severity.WARN) {
+            return;
+        }
         mWrapped.warning(tag, message, throwable);
     }
 
     @Override
     public void error(String tag, String message) {
-        if (mSeverity < Severity.ERROR) { return; }
+        if (mSeverity < Severity.ERROR) {
+            return;
+        }
         mWrapped.error(tag, message);
     }
 
     @Override
     public void error(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.ERROR) { return; }
+        if (mSeverity < Severity.ERROR) {
+            return;
+        }
         mWrapped.error(tag, message, throwable);
     }
 

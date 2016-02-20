@@ -1,4 +1,4 @@
-package com.cyrillrx.android.logger;
+package com.cyrillrx.logger;
 
 /**
  * @author Cyril Leroux

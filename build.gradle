@@ -5,7 +5,6 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-alpha5'
         classpath 'com.novoda:bintray-release:0.3.4'
     }
 }
@@ -13,11 +12,5 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-    }
-
-    if (JavaVersion.current().isJava8Compatible()) {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
     }
 }

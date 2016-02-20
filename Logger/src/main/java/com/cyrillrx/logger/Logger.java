@@ -1,9 +1,4 @@
-package com.cyrillrx.android.logger;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.Gravity;
-import android.widget.Toast;
+package com.cyrillrx.logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,61 +14,24 @@ import java.util.Set;
 public class Logger {
 
     private static final String ERROR_ALREADY_INITIALIZED = "initialize() has already been called.";
-    private static final String ERROR_INITIALIZE_FIRST    = "Call initialize() before using the Logger.";
+    private static final String ERROR_INITIALIZE_FIRST = "Call initialize() before using the Logger.";
     private static Logger sInstance;
 
     private final Set<LogChild> mLoggers;
 
-    private Toast mDebugToast;
-
     /**
-     * @param context The application context to initialize the debug toast or null.
      */
-    @SuppressLint("ShowToast")
-    private Logger(Context context) {
-
+    private Logger() {
         mLoggers = new HashSet<>();
-
-        if (context != null) {
-            mDebugToast = Toast.makeText(context, "", Toast.LENGTH_LONG);
-            mDebugToast.setGravity(Gravity.TOP, 0, 50);
-        }
     }
 
     /**
-     * Initializes the Logger.<br />
-     * Provides a context to enable a simple Toast used to display debug messages to the developer.
-     *
-     * @param context The application context to initialize the debug toast or null.
-     */
-    public static void initialize(Context context) {
-        checkMultiInitialization();
-
-        sInstance = new Logger(context);
-    }
-
-    /**
-     * Initializes the Logger without the debug logger.
+     * Initializes the Logger.
      */
     public static void initialize() {
         checkMultiInitialization();
 
-        sInstance = new Logger(null);
-    }
-
-    /**
-     * Shows a debug toast.
-     *
-     * @param message The message to toast.
-     */
-    public static synchronized void toast(String message) {
-        checkInitialized();
-
-        final Toast toast = sInstance.mDebugToast;
-        if (toast == null) { return; }
-
-        toast.setText(message);
-        toast.show();
+        sInstance = new Logger();
     }
 
     public static synchronized void addChild(LogChild child) {
