@@ -1,5 +1,8 @@
 LRX Logger Release Notes
 
+2016-02-21 - v1.1.0
+- Implemented SystemOutLog
+
 2015-11-02 - v1.0.0
 - Enhanced Logger implementation
 - Renamed AbstractLogger to LogWrapper and implemented wrapper logic

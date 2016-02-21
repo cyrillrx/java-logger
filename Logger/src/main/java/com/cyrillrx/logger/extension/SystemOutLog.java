@@ -4,22 +4,25 @@ import com.cyrillrx.logger.LogChild;
 import com.cyrillrx.logger.LogWrapper;
 import com.cyrillrx.logger.Severity;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
- * A ready-to-use severity-aware {@link LogChild} wrapping {@link java.io.PrintStream#println(String)} class.
+ * A ready-to-use severity-aware {@link LogChild} wrapping <code>System.out#println(String)</code> class.
  *
  * @author Cyril Leroux
  *         Created on 18/10/2015.
  */
-public class BasicLog extends LogWrapper {
+public class SystemOutLog extends LogWrapper {
 
-    public BasicLog(@Severity.LogSeverity int severity) {
-        super(severity, new LogKitten());
+    public SystemOutLog(@Severity.LogSeverity int severity) {
+        super(severity, new SystemOutChild());
     }
 
     /**
-     * Log cat child
+     * System standard output's log child
      */
-    private static class LogKitten implements LogChild {
+    private static class SystemOutChild implements LogChild {
 
         /**
          * @param tag     Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
@@ -27,7 +30,7 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void verbose(String tag, String message) {
-            System.out.println(String.format("Verbose - %s - %s", tag, message));
+            println("Verbose - %s - %s", tag, message);
         }
 
         /**
@@ -37,7 +40,19 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void verbose(String tag, String message, Throwable throwable) {
-            System.err.println(String.format("Verbose - %s - %s", tag, message));
+
+            if (throwable == null) {
+                verbose(tag, message);
+                return;
+            }
+
+            final String stackTrace = getStackTrace(throwable);
+            if (stackTrace == null) {
+                verbose(tag, message);
+                return;
+            }
+
+            println("Verbose - %s - %s\n%s", tag, message, stackTrace);
         }
 
         /**
@@ -46,7 +61,7 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void debug(String tag, String message) {
-            System.out.println(String.format("Debug - %s - %s", tag, message));
+            println("Debug - %s - %s", tag, message);
         }
 
         /**
@@ -56,7 +71,19 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void debug(String tag, String message, Throwable throwable) {
-            System.err.println(String.format("Debug - %s - %s", tag, message));
+
+            if (throwable == null) {
+                debug(tag, message);
+                return;
+            }
+
+            final String stackTrace = getStackTrace(throwable);
+            if (stackTrace == null) {
+                debug(tag, message);
+                return;
+            }
+
+            println("Debug - %s - %s\n%s", tag, message, stackTrace);
         }
 
         /**
@@ -65,7 +92,7 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void info(String tag, String message) {
-            System.out.println(String.format("Info - %s - %s", tag, message));
+            println("Info - %s - %s", tag, message);
         }
 
         /**
@@ -75,7 +102,19 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void info(String tag, String message, Throwable throwable) {
-            System.err.println(String.format("Info - %s - %s", tag, message));
+
+            if (throwable == null) {
+                info(tag, message);
+                return;
+            }
+
+            final String stackTrace = getStackTrace(throwable);
+            if (stackTrace == null) {
+                info(tag, message);
+                return;
+            }
+
+            println("Info - %s - %s\n%s", tag, message, stackTrace);
         }
 
         /**
@@ -84,7 +123,7 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void warning(String tag, String message) {
-            System.out.println(String.format("Warning - %s - %s", tag, message));
+            println("Warning - %s - %s", tag, message);
         }
 
         /**
@@ -94,7 +133,19 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void warning(String tag, String message, Throwable throwable) {
-            System.err.println(String.format("Warning - %s - %s", tag, message));
+
+            if (throwable == null) {
+                warning(tag, message);
+                return;
+            }
+
+            final String stackTrace = getStackTrace(throwable);
+            if (stackTrace == null) {
+                warning(tag, message);
+                return;
+            }
+
+            println("Warning - %s - %s\n%s", tag, message, stackTrace);
         }
 
         /**
@@ -103,7 +154,7 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void error(String tag, String message) {
-            System.out.println(String.format("Error - %s - %s", tag, message));
+            println("Error - %s - %s", tag, message);
         }
 
         /**
@@ -113,7 +164,51 @@ public class BasicLog extends LogWrapper {
          */
         @Override
         public void error(String tag, String message, Throwable throwable) {
-            System.err.println(String.format("Error - %s - %s", tag, message));
+
+            if (throwable == null) {
+                error(tag, message);
+                return;
+            }
+
+            final String stackTrace = getStackTrace(throwable);
+            if (stackTrace == null) {
+                error(tag, message);
+                return;
+            }
+
+            println("Error - %s - %s\n%s", tag, message, stackTrace);
         }
+    }
+
+    /**
+     * @return The Stack trace as a String.
+     */
+    private static String getStackTrace(Throwable t) {
+
+        try (final StringWriter sw = new StringWriter();
+             final PrintWriter pw = new PrintWriter(sw)) {
+
+            t.printStackTrace(pw);
+            return sw.toString();
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Prints a String into the "standard" output stream and then terminate the line.
+     *
+     * @param x The <code>String</code> to be printed.
+     */
+    private static void println(String x) {
+        System.out.println(x);
+    }
+
+    /**
+     * Formats data, prints into the "standard" output stream and then terminate the line.
+     */
+    private static void println(String format, Object... args) {
+        println(String.format(format, args));
     }
 }

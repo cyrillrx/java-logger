@@ -1,17 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'bintray-release'
 
-dependencies {
-
-    // Google Support libraries
-}
-
-
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'java-logger'
-    version = '1.0.0'
-    description = 'A modular logger component.'
+    version = '1.1.0'
+    description = 'A modular logger component in java.'
     website = 'https://github.com/cyrillrx/java_logger'
 }
