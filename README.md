@@ -1,4 +1,4 @@
-# Android logger and tracker components
+# Java logger and tracker components
 A modular logger component.
 
 # Publish to Bintray

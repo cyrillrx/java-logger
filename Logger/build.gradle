@@ -10,8 +10,8 @@ dependencies {
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
-    artifactId = 'logger'
+    artifactId = 'java-logger'
     version = '1.0.0'
     description = 'A modular logger component.'
-    website = 'https://github.com/cyrillrx/android_logger'
+    website = 'https://github.com/cyrillrx/java_logger'
 }

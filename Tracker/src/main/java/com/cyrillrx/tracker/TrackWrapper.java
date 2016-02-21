@@ -1,9 +1,6 @@
-package com.cyrillrx.android.tracker;
+package com.cyrillrx.tracker;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.cyrillrx.android.tracker.event.TrackEvent;
+import com.cyrillrx.tracker.event.TrackEvent;
 
 /**
  * A {@link TrackerChild} wrapper aware of the filter to apply.
@@ -17,12 +14,12 @@ public abstract class TrackWrapper implements TrackerChild, TrackFilter {
     private final TrackFilter  mFilter;
     private final TrackerChild mWrapped;
 
-    public TrackWrapper(@NonNull TrackerChild tracker, @Nullable TrackFilter filter) {
+    public TrackWrapper(TrackerChild tracker, TrackFilter filter) {
         mFilter = filter;
         mWrapped = tracker;
     }
 
-    public TrackWrapper(@NonNull TrackerChild tracker) {
+    public TrackWrapper(TrackerChild tracker) {
         this(tracker, null);
     }
 

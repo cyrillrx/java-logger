@@ -2,17 +2,13 @@ apply plugin: 'java'
 apply plugin: 'bintray-release'
 
 dependencies {
-
-    // Google Support libraries
-//    compile 'com.android.support:support-annotations:23.1.1'
 }
-
 
 publish {
     userOrg = 'cyrillrx'
-    groupId = 'com.cyrillrx.android'
+    groupId = 'com.cyrillrx'
     artifactId = 'tracker'
     version = '0.4.5'
     description = 'A modular tracker component.'
-    website = 'https://github.com/cyrillrx/android_logger'
+    website = 'https://github.com/cyrillrx/java_logger'
 }

@@ -1,6 +1,4 @@
-package com.cyrillrx.android.tracker.event;
-
-import android.text.TextUtils;
+package com.cyrillrx.tracker.event;
 
 import java.util.Map;
 
@@ -19,8 +17,8 @@ public class ViewEvent extends TrackEvent {
         public Builder() { event = new ViewEvent(); }
 
         public ViewEvent build() {
-            if (TextUtils.isEmpty(event.category) ||
-                    TextUtils.isEmpty(event.name)) {
+            if (event.category == null || event.category.isEmpty() ||
+                    event.name == null || event.name.isEmpty()) {
                 throw new IllegalStateException("Category and name are mandatory");
             }
 

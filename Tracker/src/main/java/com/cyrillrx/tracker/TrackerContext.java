@@ -1,4 +1,4 @@
-package com.cyrillrx.android.tracker;
+package com.cyrillrx.tracker;
 
 /**
  * @author Cyril Leroux

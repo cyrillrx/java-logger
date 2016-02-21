@@ -1,6 +1,4 @@
-package com.cyrillrx.android.tracker.event;
-
-import android.text.TextUtils;
+package com.cyrillrx.tracker.event;
 
 import java.util.Map;
 
@@ -36,8 +34,8 @@ public class ActionEvent extends TrackEvent {
         public Builder() { event = new ActionEvent(); }
 
         public ActionEvent build() {
-            if (TextUtils.isEmpty(event.category) ||
-                    TextUtils.isEmpty(event.action)) {
+            if (event.category == null || event.category.isEmpty() ||
+                    event.action == null || event.action.isEmpty()) {
                 throw new IllegalStateException("Category and action are mandatory");
             }
 

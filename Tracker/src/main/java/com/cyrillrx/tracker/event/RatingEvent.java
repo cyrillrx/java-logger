@@ -1,6 +1,4 @@
-package com.cyrillrx.android.tracker.event;
-
-import android.text.TextUtils;
+package com.cyrillrx.tracker.event;
 
 import java.util.Map;
 
@@ -28,9 +26,9 @@ public class RatingEvent extends TrackEvent {
         }
 
         public RatingEvent build() {
-            if (TextUtils.isEmpty(event.category) ||
-                    TextUtils.isEmpty(event.id) ||
-                    TextUtils.isEmpty(event.type) ||
+            if (event.category == null || event.category.isEmpty() ||
+                    event.id == null || event.id.isEmpty() ||
+                    event.type == null || event.type.isEmpty() ||
                     !isRated) {
                 throw new IllegalStateException("Category, id, type and rating are mandatory");
             }

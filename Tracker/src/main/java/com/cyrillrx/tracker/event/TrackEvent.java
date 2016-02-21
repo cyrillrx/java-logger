@@ -1,6 +1,4 @@
-package com.cyrillrx.android.tracker.event;
-
-import android.text.TextUtils;
+package com.cyrillrx.tracker.event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +42,7 @@ public class TrackEvent {
         public Builder() { event = new TrackEvent(); }
 
         public TrackEvent build() {
-            if (TextUtils.isEmpty(event.category)) {
+            if (event.category == null || event.category.isEmpty()) {
                 throw new IllegalStateException("Category is mandatory");
             }
 

@@ -1,6 +1,6 @@
-package com.cyrillrx.android.tracker;
+package com.cyrillrx.tracker;
 
-import com.cyrillrx.android.tracker.event.TrackEvent;
+import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.HashSet;
 import java.util.Set;
