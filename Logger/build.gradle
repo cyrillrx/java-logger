@@ -4,7 +4,7 @@ apply plugin: 'bintray-release'
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
-    artifactId = 'java-logger'
+    artifactId = 'logger'
     version = '1.1.0'
     description = 'A modular logger component in java.'
     website = 'https://github.com/cyrillrx/java_logger'
