@@ -8,11 +8,10 @@ package com.cyrillrx.logger;
  */
 public abstract class LogWrapper implements LogChild {
 
-    @Severity.LogSeverity
-    private final int mSeverity;
+    private final int      mSeverity;
     private final LogChild mWrapped;
 
-    public LogWrapper(@Severity.LogSeverity int severity, LogChild logger) {
+    public LogWrapper(int severity, LogChild logger) {
         mSeverity = severity;
         mWrapped = logger;
     }

@@ -1,9 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'bintray-release'
 
-dependencies {
-}
-
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'

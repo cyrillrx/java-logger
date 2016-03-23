@@ -2,7 +2,6 @@ package com.cyrillrx.logger.extension;
 
 import com.cyrillrx.logger.LogChild;
 import com.cyrillrx.logger.LogWrapper;
-import com.cyrillrx.logger.Severity;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -15,7 +14,7 @@ import java.io.StringWriter;
  */
 public class SystemOutLog extends LogWrapper {
 
-    public SystemOutLog(@Severity.LogSeverity int severity) {
+    public SystemOutLog(int severity) {
         super(severity, new SystemOutChild());
     }
 
