@@ -6,10 +6,10 @@ package com.cyrillrx.logger;
  */
 class Severity {
 
-    static final int FATAL   = 0;
-    static final int ERROR   = 1;
-    static final int WARN    = 2;
-    static final int INFO    = 3;
-    static final int DEBUG   = 4;
-    static final int VERBOSE = 5;
+    public static final int FATAL   = 0;
+    public static final int ERROR   = 1;
+    public static final int WARN    = 2;
+    public static final int INFO    = 3;
+    public static final int DEBUG   = 4;
+    public static final int VERBOSE = 5;
 }
