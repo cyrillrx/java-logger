@@ -1,7 +1,10 @@
 LRX Logger Release Notes
 
+2016-03-29 - v1.1.2
+- Extended Severity class visibility
+
 2016-03-29 - v1.1.1
-- Extended Severity visibility
+- Extended Severity attributes visibility
 
 2016-02-21 - v1.1.0
 - Implemented SystemOutLog
