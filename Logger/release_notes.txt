@@ -1,5 +1,8 @@
 LRX Logger Release Notes
 
+2016-03-29 - v1.1.3
+- Added compatibility to java 1.7 for Android users
+
 2016-03-29 - v1.1.2
 - Extended Severity class visibility
 
