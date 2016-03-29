@@ -1,5 +1,8 @@
 LRX Tracker Release Notes
 
+2016-03-29 - v0.4.9
+- Renamed method getTrackerContext() to getContext()
+
 2016-03-23 - v0.4.8
 2016-02-26 - v0.4.7
 2016-02-25 - v0.4.6
