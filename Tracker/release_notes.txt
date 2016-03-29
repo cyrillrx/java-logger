@@ -1,5 +1,9 @@
 LRX Tracker Release Notes
 
+2016-03-29 - v0.4.10
+- Added compatibility to java 1.7 for Android users
+- Implemented UserChangedListener
+
 2016-03-29 - v0.4.9
 - Renamed method getTrackerContext() to getContext()
 

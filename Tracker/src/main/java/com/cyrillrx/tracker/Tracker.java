@@ -36,6 +36,14 @@ public class Tracker {
         sInstance = new Tracker();
     }
 
+    /**
+     * @deprecated use {@link #getContext()}
+     */
+    @Deprecated
+    public static synchronized TrackerContext getTrackerContext() {
+        return getContext();
+    }
+
     public static synchronized TrackerContext getContext() {
         checkInitialized();
 

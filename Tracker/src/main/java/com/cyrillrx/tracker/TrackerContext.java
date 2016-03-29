@@ -1,5 +1,8 @@
 package com.cyrillrx.tracker;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Cyril Leroux
  *         Created on 11/11/2015.
@@ -10,6 +13,12 @@ public class TrackerContext {
     private User   user;
     private Device device;
 
+    private Set<UserChangedListener> listeners;
+
+    public TrackerContext() {
+        listeners = new HashSet<>();
+    }
+
     public TrackerContext setApp(App app) {
         this.app = app;
         return this;
@@ -19,6 +28,9 @@ public class TrackerContext {
 
     public TrackerContext setUser(User user) {
         this.user = user;
+        for (UserChangedListener listener : listeners) {
+            listener.onUserChanged(user);
+        }
         return this;
     }
 
@@ -30,6 +42,13 @@ public class TrackerContext {
     }
 
     public Device getDevice() { return device; }
+
+    /**
+     * Adds a listener that will be notified when {@link User} is updated.
+     */
+    public void addListener(UserChangedListener listener) {
+        listeners.add(listener);
+    }
 
     //
     // Inner classes
@@ -128,6 +147,11 @@ public class TrackerContext {
         }
 
         public String getDisplay() { return display; }
+    }
+
+    public interface UserChangedListener {
+
+        void onUserChanged(TrackerContext.User user);
     }
 
 }
