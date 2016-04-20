@@ -1,5 +1,6 @@
 package com.cyrillrx.tracker;
 
+import com.cyrillrx.tracker.context.TrackerContext;
 import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.HashSet;
@@ -17,14 +18,14 @@ public class Tracker {
 
     private static final String ERROR_ALREADY_INITIALIZED = "initialize() has already been called.";
     private static final String ERROR_INITIALIZE_FIRST    = "Call initialize() before using the Tracker.";
-    private static Tracker sInstance;
+    private static Tracker instance;
 
-    private final Set<TrackerChild> mTrackers;
-    private final TrackerContext    mContext;
+    private final Set<TrackerChild> trackers;
+    private final TrackerContext    context;
 
     private Tracker() {
-        mTrackers = new HashSet<>();
-        mContext = new TrackerContext();
+        trackers = new HashSet<>();
+        context = new TrackerContext();
     }
 
     /**
@@ -33,7 +34,7 @@ public class Tracker {
     public static void initialize() {
         checkMultiInitialization();
 
-        sInstance = new Tracker();
+        instance = new Tracker();
     }
 
     /**
@@ -47,26 +48,28 @@ public class Tracker {
     public static synchronized TrackerContext getContext() {
         checkInitialized();
 
-        return sInstance.mContext;
+        return instance.context;
     }
 
     public static synchronized void addChild(TrackerChild child) {
         checkInitialized();
 
-        sInstance.mTrackers.add(child);
+        instance.trackers.add(child);
     }
 
     public static synchronized void removeChild(TrackerChild child) {
         checkInitialized();
 
-        sInstance.mTrackers.remove(child);
+        instance.trackers.remove(child);
     }
 
     public static synchronized void track(TrackEvent event) {
         checkInitialized();
 
-        for (TrackerChild tracker : sInstance.mTrackers) {
-            tracker.track(sInstance.mContext, event);
+        event.setContext(instance.context);
+
+        for (TrackerChild tracker : instance.trackers) {
+            tracker.track(event);
         }
     }
 
@@ -75,7 +78,7 @@ public class Tracker {
      * Throws if not.
      */
     private static void checkInitialized() {
-        if (sInstance == null) {
+        if (instance == null) {
             throw new IllegalStateException(ERROR_INITIALIZE_FIRST);
         }
     }
@@ -85,7 +88,7 @@ public class Tracker {
      * Throws if the component has already been initialized.
      */
     private static void checkMultiInitialization() {
-        if (sInstance != null) {
+        if (instance != null) {
             throw new IllegalStateException(ERROR_ALREADY_INITIALIZED);
         }
     }

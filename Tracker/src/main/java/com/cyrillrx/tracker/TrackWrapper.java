@@ -4,19 +4,19 @@ import com.cyrillrx.tracker.event.TrackEvent;
 
 /**
  * A {@link TrackerChild} wrapper aware of the filter to apply.
- * If no filter is set, the tracker tracks all events.
+ * If no filter is set, the com.cyrillrx.tracker tracks all events.
  *
  * @author Cyril Leroux
  *         Created on 11/11/15
  */
 public abstract class TrackWrapper implements TrackerChild, TrackFilter {
 
-    private final TrackFilter  mFilter;
-    private final TrackerChild mWrapped;
+    private final TrackFilter  filter;
+    private final TrackerChild wrapped;
 
     public TrackWrapper(TrackerChild tracker, TrackFilter filter) {
-        mFilter = filter;
-        mWrapped = tracker;
+        this.filter = filter;
+        wrapped = tracker;
     }
 
     public TrackWrapper(TrackerChild tracker) {
@@ -24,14 +24,18 @@ public abstract class TrackWrapper implements TrackerChild, TrackFilter {
     }
 
     @Override
-    public void track(TrackerContext context, TrackEvent event) {
+    public void track(TrackEvent event) {
         if (shouldTrack(event)) {
-            mWrapped.track(context, event);
+            doTrack(event);
         }
     }
 
     @Override
     public boolean shouldTrack(TrackEvent event) {
-        return mFilter == null || mFilter.shouldTrack(event);
+        return filter == null || filter.shouldTrack(event);
+    }
+
+    protected void doTrack(TrackEvent event) {
+        wrapped.track(event);
     }
 }

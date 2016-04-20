@@ -1,5 +1,7 @@
 package com.cyrillrx.tracker.event;
 
+import com.cyrillrx.tracker.context.TrackerContext;
+
 import java.util.Map;
 
 /**
@@ -23,6 +25,11 @@ public class ViewEvent extends TrackEvent {
             }
 
             return event;
+        }
+
+        public Builder setContext(TrackerContext context) {
+            event.context = context;
+            return this;
         }
 
         public Builder setCategory(String category) {

@@ -1,4 +1,4 @@
-package com.cyrillrx.tracker;
+package com.cyrillrx.tracker.context;
 
 import java.util.HashSet;
 import java.util.Set;

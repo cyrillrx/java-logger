@@ -1,4 +1,4 @@
-# Java logger and tracker components
+# Java logger and com.cyrillrx.tracker components
 A modular logger component.
 
 # Publish to Bintray

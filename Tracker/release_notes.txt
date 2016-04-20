@@ -37,4 +37,4 @@ LRX Tracker Release Notes
 - Changed TrackFilter from class to interface
 
 2015-11-23 - v0.1.0
-- Initialized tracker component
+- Initialized com.cyrillrx.tracker component

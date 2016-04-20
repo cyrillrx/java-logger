@@ -4,11 +4,15 @@ apply plugin: 'bintray-release'
 targetCompatibility = '1.7'
 sourceCompatibility = '1.7'
 
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
-    artifactId = 'tracker'
+    artifactId = 'com.cyrillrx.tracker'
     version = '0.4.10'
-    description = 'A modular tracker component.'
+    description = 'A modular com.cyrillrx.tracker component.'
     website = 'https://github.com/cyrillrx/java_logger'
 }

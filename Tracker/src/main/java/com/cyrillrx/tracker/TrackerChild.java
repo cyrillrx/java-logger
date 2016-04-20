@@ -8,5 +8,5 @@ import com.cyrillrx.tracker.event.TrackEvent;
  */
 public interface TrackerChild {
 
-    void track(TrackerContext context, TrackEvent event);
+    void track(TrackEvent event);
 }

@@ -1,5 +1,7 @@
 package com.cyrillrx.tracker.event;
 
+import com.cyrillrx.tracker.context.TrackerContext;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,16 +13,22 @@ public class TrackEvent {
 
     protected final long createdAt;
 
-    protected String category;
-    protected String id;
-    protected String type;
-    protected String name;
+    protected TrackerContext context;
+    protected String         category;
+    protected String         id;
+    protected String         type;
+    protected String         name;
 
     protected Map<String, String> customAttributes;
 
     TrackEvent() {
         createdAt = System.currentTimeMillis();
         customAttributes = new HashMap<>();
+    }
+
+    public TrackEvent setContext(TrackerContext context) {
+        this.context = context;
+        return this;
     }
 
     public long getCreatedAt() { return createdAt; }
@@ -47,6 +55,11 @@ public class TrackEvent {
             }
 
             return event;
+        }
+
+        public Builder setContext(TrackerContext context) {
+            event.context = context;
+            return this;
         }
 
         public Builder setCategory(String category) {
