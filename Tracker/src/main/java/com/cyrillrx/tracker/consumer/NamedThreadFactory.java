@@ -17,7 +17,6 @@ public class NamedThreadFactory implements ThreadFactory {
         this.threadCount = 0;
     }
 
-
     @Override
     public Thread newThread(Runnable r) {
         return new Thread(r, generateName());

@@ -1,5 +1,6 @@
 package com.cyrillrx.tracker.consumer;
 
+import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.concurrent.BlockingQueue;
@@ -8,48 +9,44 @@ import java.util.concurrent.BlockingQueue;
  * @author Cyril Leroux
  *         Created on 20/04/16.
  */
-public class EventConsumer implements Runnable {
+public abstract class EventConsumer implements Runnable {
 
-    private static final String TAG = EventConsumer.class.getSimpleName();
-
-    private final BlockingQueue<TrackEvent> queue;
-
-    public static final TrackEvent STOP_EVENT = new TrackEvent.Builder()
+    protected static final TrackEvent STOP_EVENT = new TrackEvent.Builder()
             .setCategory("STOP_EVENT")
             .build();
 
-    private boolean running;
+    protected final TrackerChild              tracker;
+    protected final BlockingQueue<TrackEvent> eventQueue;
 
-    public EventConsumer(BlockingQueue<TrackEvent> queue) {
-        this.queue = queue;
+    protected boolean running;
+
+    public EventConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) {
+        this.tracker = tracker;
+        this.eventQueue = queue;
+        this.running = true;
     }
 
-    @Override
-    public void run() {
-
-        while (running) {
-            consume();
-        }
-    }
-
-    private void consume() {
+    protected boolean consume() {
 
         try {
-            final TrackEvent event = queue.take();
+            final TrackEvent event = eventQueue.take();
 
             if (STOP_EVENT.equals(event)) {
                 running = false;
-                return;
+                return false;
             }
 
-            doConsume(event);
+            // TODO implement retry policy
+            return doConsume(event);
 
         } catch (InterruptedException e) {
             running = false;
+            return false;
         }
     }
 
-    private synchronized void doConsume(TrackEvent event) {
-
+    private synchronized boolean doConsume(TrackEvent event) {
+        tracker.track(event);
+        return true;
     }
 }

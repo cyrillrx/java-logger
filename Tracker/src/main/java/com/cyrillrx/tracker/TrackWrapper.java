@@ -11,8 +11,8 @@ import com.cyrillrx.tracker.event.TrackEvent;
  */
 public abstract class TrackWrapper implements TrackerChild, TrackFilter {
 
-    private final TrackFilter  filter;
-    private final TrackerChild wrapped;
+    protected final TrackFilter  filter;
+    protected final TrackerChild wrapped;
 
     public TrackWrapper(TrackerChild tracker, TrackFilter filter) {
         this.filter = filter;

@@ -1,7 +1,11 @@
-package com.cyrillrx.tracker;
+package com.cyrillrx.tracker.queue;
 
+import com.cyrillrx.tracker.TrackFilter;
+import com.cyrillrx.tracker.TrackWrapper;
+import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.consumer.EventConsumer;
 import com.cyrillrx.tracker.consumer.NamedThreadFactory;
+import com.cyrillrx.tracker.consumer.RealTimeConsumer;
 import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -13,26 +17,32 @@ import java.util.concurrent.Executors;
  * @author Cyril Leroux
  *         Created on 19/04/16.
  */
-public class RealTimeTracker extends TrackWrapper {
+public abstract class QueuedTracker extends TrackWrapper {
 
-    private static final String TAG = RealTimeTracker.class.getSimpleName();
+    private static final String TAG = QueuedTracker.class.getSimpleName();
 
     private static final String THREAD_PREFIX = TAG + "_";
 
-    private final BlockingQueue<TrackEvent> queue;
+    protected final BlockingQueue<TrackEvent> queue;
 
-    public RealTimeTracker(TrackerChild tracker, int capacity, int workerCount, TrackFilter filter) {
+    public QueuedTracker(TrackerChild tracker, int capacity, int workerCount, TrackFilter filter) {
         super(tracker, filter);
         queue = new ArrayBlockingQueue<>(capacity, true);
         start(workerCount);
     }
 
-    public RealTimeTracker(TrackerChild tracker, int capacity, int workerCount) {
+    public QueuedTracker(TrackerChild tracker, int capacity, int workerCount) {
         this(tracker, capacity, workerCount, null);
     }
 
-    public RealTimeTracker(TrackerChild tracker, int capacity) {
+    public QueuedTracker(TrackerChild tracker, int capacity) {
         this(tracker, capacity, 1, null);
+    }
+
+    @Override
+    protected void doTrack(TrackEvent event) {
+        queue.add(event);
+        System.out.println("Queue size : " + queue.size());
     }
 
     public void start(int workerCount) {
@@ -44,11 +54,13 @@ public class RealTimeTracker extends TrackWrapper {
 
         try {
             for (int i = 0; i < workerCount; ++i) {
-                service.submit(new EventConsumer(queue));
+                service.submit(new RealTimeConsumer(wrapped, queue));
             }
 
         } finally {
             service.shutdown();
         }
     }
+
+    protected abstract EventConsumer createConsumer();
 }
