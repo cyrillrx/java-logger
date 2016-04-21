@@ -5,7 +5,6 @@ import com.cyrillrx.tracker.TrackWrapper;
 import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.consumer.EventConsumer;
 import com.cyrillrx.tracker.consumer.NamedThreadFactory;
-import com.cyrillrx.tracker.consumer.RealTimeConsumer;
 import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -39,12 +38,21 @@ public abstract class QueuedTracker extends TrackWrapper {
         this(tracker, capacity, 1, null);
     }
 
+    /**
+     * Adds the event to the queue where it will be consume.
+     *
+     * @param event The event to add to the queue.
+     */
     @Override
     protected void doTrack(TrackEvent event) {
         queue.add(event);
-        System.out.println("Queue size : " + queue.size());
     }
 
+    /**
+     * Starts the event queue consumers.
+     *
+     * @param workerCount
+     */
     public void start(int workerCount) {
 
         final int processorCount = Runtime.getRuntime().availableProcessors();
@@ -54,7 +62,7 @@ public abstract class QueuedTracker extends TrackWrapper {
 
         try {
             for (int i = 0; i < workerCount; ++i) {
-                service.submit(new RealTimeConsumer(wrapped, queue));
+                service.submit(createConsumer());
             }
 
         } finally {

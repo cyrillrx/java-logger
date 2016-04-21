@@ -2,6 +2,8 @@ package com.cyrillrx.tracker;
 
 import com.cyrillrx.tracker.event.TrackEvent;
 
+import java.util.Collection;
+
 /**
  * A {@link TrackerChild} wrapper aware of the filter to apply.
  * If no filter is set, the com.cyrillrx.tracker tracks all events.
@@ -27,6 +29,20 @@ public abstract class TrackWrapper implements TrackerChild, TrackFilter {
     public void track(TrackEvent event) {
         if (shouldTrack(event)) {
             doTrack(event);
+        }
+    }
+
+    @Override
+    public void track(Collection<TrackEvent> events) {
+        for (TrackEvent event : events) {
+            track(event);
+        }
+    }
+
+    @Override
+    public void track(TrackEvent[] events) {
+        for (TrackEvent event : events) {
+            track(event);
         }
     }
 
