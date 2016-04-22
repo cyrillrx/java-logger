@@ -7,8 +7,7 @@ import com.cyrillrx.tracker.consumer.EventConsumer;
 import com.cyrillrx.tracker.consumer.NamedThreadFactory;
 import com.cyrillrx.tracker.event.TrackEvent;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,26 +15,27 @@ import java.util.concurrent.Executors;
  * @author Cyril Leroux
  *         Created on 19/04/16.
  */
-public abstract class QueuedTracker extends TrackWrapper {
+public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
+        extends TrackWrapper {
 
-    private static final String TAG = QueuedTracker.class.getSimpleName();
+    private static final String TAG = AsyncTracker.class.getSimpleName();
 
     private static final String THREAD_PREFIX = TAG + "_";
 
-    protected final BlockingQueue<TrackEvent> queue;
+    protected final EventQueue queue;
 
-    public QueuedTracker(TrackerChild tracker, int capacity, int workerCount, TrackFilter filter) {
+    public AsyncTracker(TrackerChild tracker, EventQueue queue, int workerCount, TrackFilter filter) {
         super(tracker, filter);
-        queue = new ArrayBlockingQueue<>(capacity, true);
+        this.queue = queue;
         start(workerCount);
     }
 
-    public QueuedTracker(TrackerChild tracker, int capacity, int workerCount) {
-        this(tracker, capacity, workerCount, null);
+    public AsyncTracker(TrackerChild tracker, EventQueue queue, int workerCount) {
+        this(tracker, queue, workerCount, null);
     }
 
-    public QueuedTracker(TrackerChild tracker, int capacity) {
-        this(tracker, capacity, 1, null);
+    public AsyncTracker(TrackerChild tracker, EventQueue queue) {
+        this(tracker, queue, 1, null);
     }
 
     /**
@@ -70,5 +70,5 @@ public abstract class QueuedTracker extends TrackWrapper {
         }
     }
 
-    protected abstract EventConsumer createConsumer();
+    protected abstract EventConsumer<EventQueue> createConsumer();
 }

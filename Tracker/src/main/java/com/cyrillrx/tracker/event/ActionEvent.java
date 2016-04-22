@@ -12,28 +12,41 @@ public class ActionEvent extends TrackEvent {
 
     protected String action;
 
-    protected int     intValue;
-    protected long    longValue;
-    protected float   floatValue;
+    protected int intValue;
+    protected long longValue;
+    protected float floatValue;
     protected boolean boolValue;
 
-    ActionEvent() { }
+    ActionEvent() {
+    }
 
-    public String getAction() { return action; }
+    public String getAction() {
+        return action;
+    }
 
-    public int getIntValue() { return intValue; }
+    public int getIntValue() {
+        return intValue;
+    }
 
-    public long getLongValue() { return longValue; }
+    public long getLongValue() {
+        return longValue;
+    }
 
-    public float getFloatValue() { return floatValue; }
+    public float getFloatValue() {
+        return floatValue;
+    }
 
-    public boolean getBoolValue() { return boolValue; }
+    public boolean getBoolValue() {
+        return boolValue;
+    }
 
     public static class Builder {
 
         private final ActionEvent event;
 
-        public Builder() { event = new ActionEvent(); }
+        public Builder() {
+            event = new ActionEvent();
+        }
 
         public ActionEvent build() {
             if (event.category == null || event.category.isEmpty() ||

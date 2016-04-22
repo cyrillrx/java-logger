@@ -3,50 +3,27 @@ package com.cyrillrx.tracker.consumer;
 import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Collection;
 
 /**
  * @author Cyril Leroux
  *         Created on 20/04/16.
  */
-public abstract class EventConsumer implements Runnable {
+public abstract class EventConsumer<EventContainer extends Collection<TrackEvent>>
+        implements Runnable {
 
     protected static final TrackEvent STOP_EVENT = new TrackEvent.Builder()
             .setCategory("STOP_EVENT")
             .build();
 
-    protected final TrackerChild              tracker;
-    protected final BlockingQueue<TrackEvent> eventQueue;
-
+    protected final TrackerChild tracker;
+    protected final EventContainer events;
     protected boolean running;
 
-    public EventConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) {
+    public EventConsumer(TrackerChild tracker, EventContainer events) {
         this.tracker = tracker;
-        this.eventQueue = queue;
-        this.running = true;
+        this.events = events;
     }
 
-    protected boolean consume() {
-
-        try {
-            final TrackEvent event = eventQueue.take();
-
-            if (STOP_EVENT.equals(event)) {
-                running = false;
-                return false;
-            }
-
-            // TODO implement retry policy
-            return doConsume(event);
-
-        } catch (InterruptedException e) {
-            running = false;
-            return false;
-        }
-    }
-
-    private synchronized boolean doConsume(TrackEvent event) {
-        tracker.track(event);
-        return true;
-    }
+    protected abstract void consume();
 }

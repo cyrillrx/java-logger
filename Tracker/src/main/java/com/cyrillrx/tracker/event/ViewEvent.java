@@ -10,13 +10,16 @@ import java.util.Map;
  */
 public class ViewEvent extends TrackEvent {
 
-    ViewEvent() { }
+    ViewEvent() {
+    }
 
     public static class Builder {
 
         private final ViewEvent event;
 
-        public Builder() { event = new ViewEvent(); }
+        public Builder() {
+            event = new ViewEvent();
+        }
 
         public ViewEvent build() {
             if (event.category == null || event.category.isEmpty() ||

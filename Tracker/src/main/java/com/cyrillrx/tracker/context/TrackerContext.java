@@ -9,8 +9,8 @@ import java.util.Set;
  */
 public class TrackerContext {
 
-    private App    app;
-    private User   user;
+    private App app;
+    private User user;
     private Device device;
 
     private Set<UserChangedListener> listeners;
@@ -24,7 +24,9 @@ public class TrackerContext {
         return this;
     }
 
-    public App getApp() { return app; }
+    public App getApp() {
+        return app;
+    }
 
     public TrackerContext setUser(User user) {
         this.user = user;
@@ -34,14 +36,18 @@ public class TrackerContext {
         return this;
     }
 
-    public User getUser() { return user; }
+    public User getUser() {
+        return user;
+    }
 
     public TrackerContext setDevice(Device device) {
         this.device = device;
         return this;
     }
 
-    public Device getDevice() { return device; }
+    public Device getDevice() {
+        return device;
+    }
 
     /**
      * Adds a listener that will be notified when {@link User} is updated.
@@ -63,9 +69,13 @@ public class TrackerContext {
             this.version = version;
         }
 
-        public String getName() { return name; }
+        public String getName() {
+            return name;
+        }
 
-        public String getVersion() { return version; }
+        public String getVersion() {
+            return version;
+        }
     }
 
     public static class User {
@@ -79,21 +89,27 @@ public class TrackerContext {
             return this;
         }
 
-        public String getId() { return id; }
+        public String getId() {
+            return id;
+        }
 
         public User setName(String name) {
             this.name = name;
             return this;
         }
 
-        public String getName() { return name; }
+        public String getName() {
+            return name;
+        }
 
         public User setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public String getEmail() { return email; }
+        public String getEmail() {
+            return email;
+        }
     }
 
     public static class Device {
@@ -111,42 +127,54 @@ public class TrackerContext {
             return this;
         }
 
-        public String getOs() { return os; }
+        public String getOs() {
+            return os;
+        }
 
         public Device setBrand(String brand) {
             this.brand = brand;
             return this;
         }
 
-        public String getBrand() { return brand; }
+        public String getBrand() {
+            return brand;
+        }
 
         public Device setManufacturer(String manufacturer) {
             this.manufacturer = manufacturer;
             return this;
         }
 
-        public String getManufacturer() { return manufacturer; }
+        public String getManufacturer() {
+            return manufacturer;
+        }
 
         public Device setModel(String model) {
             this.model = model;
             return this;
         }
 
-        public String getModel() { return model; }
+        public String getModel() {
+            return model;
+        }
 
         public Device setSerial(String serial) {
             this.serial = serial;
             return this;
         }
 
-        public String getSerial() { return serial; }
+        public String getSerial() {
+            return serial;
+        }
 
         public Device setDisplay(String display) {
             this.display = display;
             return this;
         }
 
-        public String getDisplay() { return display; }
+        public String getDisplay() {
+            return display;
+        }
     }
 
     public interface UserChangedListener {

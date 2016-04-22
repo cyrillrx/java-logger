@@ -17,11 +17,11 @@ import java.util.Set;
 public class Tracker {
 
     private static final String ERROR_ALREADY_INITIALIZED = "initialize() has already been called.";
-    private static final String ERROR_INITIALIZE_FIRST    = "Call initialize() before using the Tracker.";
+    private static final String ERROR_INITIALIZE_FIRST = "Call initialize() before using the Tracker.";
     private static Tracker instance;
 
     private final Set<TrackerChild> trackers;
-    private final TrackerContext    context;
+    private final TrackerContext context;
 
     private Tracker() {
         trackers = new HashSet<>();

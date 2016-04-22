@@ -14,10 +14,10 @@ public class TrackEvent {
     protected final long createdAt;
 
     protected TrackerContext context;
-    protected String         category;
-    protected String         id;
-    protected String         type;
-    protected String         name;
+    protected String category;
+    protected String id;
+    protected String type;
+    protected String name;
 
     protected Map<String, String> customAttributes;
 
@@ -31,23 +31,37 @@ public class TrackEvent {
         return this;
     }
 
-    public long getCreatedAt() { return createdAt; }
+    public long getCreatedAt() {
+        return createdAt;
+    }
 
-    public String getCategory() { return category; }
+    public String getCategory() {
+        return category;
+    }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public Map<String, String> getCustomAttributes() { return customAttributes; }
+    public Map<String, String> getCustomAttributes() {
+        return customAttributes;
+    }
 
     public static class Builder {
 
         private final TrackEvent event;
 
-        public Builder() { event = new TrackEvent(); }
+        public Builder() {
+            event = new TrackEvent();
+        }
 
         public TrackEvent build() {
             if (event.category == null || event.category.isEmpty()) {

@@ -13,6 +13,4 @@ public interface TrackerChild {
     void track(TrackEvent event);
 
     void track(Collection<TrackEvent> events);
-
-    void track(TrackEvent[] events);
 }

@@ -12,27 +12,17 @@ import java.util.concurrent.TimeUnit;
  * @author Cyril Leroux
  *         Created on 21/04/16.
  */
-public class ScheduledConsumer implements Runnable {
-
-    protected static final TrackEvent STOP_EVENT = new TrackEvent.Builder()
-            .setCategory("STOP_EVENT")
-            .build();
-
-    protected final TrackerChild      tracker;
-    protected final Queue<TrackEvent> eventQueue;
-    protected       boolean           running;
+public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
 
     public ScheduledConsumer(TrackerChild tracker, Queue<TrackEvent> queue) {
-        this.tracker = tracker;
-        this.eventQueue = queue;
-        this.running = true;
+        super(tracker, queue);
     }
 
     @Override
     public void run() {
 
+        running = true;
         while (running) {
-
             consume();
 
             try {
@@ -45,28 +35,30 @@ public class ScheduledConsumer implements Runnable {
 
     protected void consume() {
 
-        final List<TrackEvent> events = new ArrayList<>();
+        final List<TrackEvent> batch = new ArrayList<>();
 
         TrackEvent event;
-        while (!eventQueue.isEmpty()) {
-            event = eventQueue.poll();
+        while (!events.isEmpty()) {
+            event = events.poll();
+
+            // If stop received, stop the batch and send pending events
             if (STOP_EVENT.equals(event)) {
                 running = false;
                 break;
             }
-            events.add(event);
+            batch.add(event);
         }
 
         try {
-            doConsume(events);
+            doConsume(batch);
 
         } catch (Exception e) {
-            // TODO retry
+            // TODO implement retry policy
+            events.addAll(batch);
         }
     }
 
-    private synchronized boolean doConsume(List<TrackEvent> events) {
+    private synchronized void doConsume(List<TrackEvent> events) {
         tracker.track(events);
-        return true;
     }
 }
