@@ -19,19 +19,30 @@ public class ScheduledTrackerTest {
         System.out.println("Test started");
 
         final MockLogTracker logTracker = new MockLogTracker();
-        final ScheduledTracker tracker = new ScheduledTracker(logTracker);
+        final ScheduledTracker tracker = new ScheduledTracker.Builder()
+                .setNestedTracker(logTracker)
+                .setInterval(5, TimeUnit.SECONDS)
+                .build();
+
+        Utils.wait(1, TimeUnit.SECONDS);
 
         Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
 
         tracker.track(new TrackEvent.Builder().setCategory("test").build());
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            // TODO
-            System.out.println(e);
-        }
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
 
-        Assert.assertEquals("Should be 1", 1, logTracker.getCount());
+        Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
+
+        Utils.wait(1, TimeUnit.SECONDS);
+
+        Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
+
+        Utils.wait(5, TimeUnit.SECONDS);
+
+        Assert.assertEquals("Should be 5", 5, logTracker.getCount());
         Assert.assertTrue("Should contain test", logTracker.categories.contains("test"));
     }
 

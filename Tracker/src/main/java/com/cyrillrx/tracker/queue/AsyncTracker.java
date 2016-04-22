@@ -21,21 +21,17 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
     private static final String TAG = AsyncTracker.class.getSimpleName();
 
     private static final String THREAD_PREFIX = TAG + "_";
+    protected static final int DEFAULT_WORKER_COUNT = 1;
 
-    protected final EventQueue queue;
+    protected EventQueue queue;
 
-    public AsyncTracker(TrackerChild tracker, EventQueue queue, int workerCount, TrackFilter filter) {
+    public AsyncTracker(TrackerChild tracker, EventQueue queue, TrackFilter filter) {
         super(tracker, filter);
         this.queue = queue;
-        start(workerCount);
-    }
-
-    public AsyncTracker(TrackerChild tracker, EventQueue queue, int workerCount) {
-        this(tracker, queue, workerCount, null);
     }
 
     public AsyncTracker(TrackerChild tracker, EventQueue queue) {
-        this(tracker, queue, 1, null);
+        this(tracker, queue, null);
     }
 
     /**
@@ -53,7 +49,7 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
      *
      * @param workerCount
      */
-    public void start(int workerCount) {
+    protected void start(int workerCount) {
 
         final int processorCount = Runtime.getRuntime().availableProcessors();
         final ExecutorService service = Executors.newFixedThreadPool(

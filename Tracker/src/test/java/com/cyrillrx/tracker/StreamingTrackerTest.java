@@ -19,19 +19,24 @@ public class StreamingTrackerTest {
         System.out.println("Test started");
 
         final MockLogTracker logTracker = new MockLogTracker();
-        final StreamingTracker tracker = new StreamingTracker(logTracker, 200);
+        final StreamingTracker tracker = new StreamingTracker.Builder()
+                .setNestedTracker(logTracker)
+                .setCapacity(200)
+                .build();
 
         Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
 
         tracker.track(new TrackEvent.Builder().setCategory("test").build());
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            // TODO
-            System.out.println(e);
-        }
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        Utils.wait(1, TimeUnit.SECONDS);
 
-        Assert.assertEquals("Should be 1", 1, logTracker.getCount());
+        Assert.assertEquals("Should be 2", 2, logTracker.getCount());
+
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        tracker.track(new TrackEvent.Builder().setCategory("test").build());
+        Utils.wait(1, TimeUnit.SECONDS);
+
+        Assert.assertEquals("Should be 4", 4, logTracker.getCount());
         Assert.assertTrue("Should contain test", logTracker.categories.contains("test"));
     }
 }

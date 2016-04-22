@@ -14,8 +14,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
 
-    public ScheduledConsumer(TrackerChild tracker, Queue<TrackEvent> queue) {
+    private TimeUnit timeUnit;
+    private long timeDuration;
+
+    public ScheduledConsumer(TrackerChild tracker, Queue<TrackEvent> queue, TimeUnit unit, long duration) {
         super(tracker, queue);
+        timeUnit = unit;
+        timeDuration = duration;
     }
 
     @Override
@@ -26,7 +31,7 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
             consume();
 
             try {
-                TimeUnit.SECONDS.sleep(30);
+                timeUnit.sleep(timeDuration);
             } catch (InterruptedException ex) {
                 running = false;
             }

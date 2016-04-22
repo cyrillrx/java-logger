@@ -14,16 +14,14 @@ import java.util.Collection;
 public abstract class TrackWrapper implements TrackerChild, TrackFilter {
 
     protected final TrackFilter filter;
-    protected final TrackerChild wrapped;
+    protected final TrackerChild nestedTracker;
 
     public TrackWrapper(TrackerChild tracker, TrackFilter filter) {
         this.filter = filter;
-        wrapped = tracker;
+        nestedTracker = tracker;
     }
 
-    public TrackWrapper(TrackerChild tracker) {
-        this(tracker, null);
-    }
+    public TrackWrapper(TrackerChild tracker) { this(tracker, null); }
 
     @Override
     public void track(TrackEvent event) {
@@ -45,6 +43,6 @@ public abstract class TrackWrapper implements TrackerChild, TrackFilter {
     }
 
     protected void doTrack(TrackEvent event) {
-        wrapped.track(event);
+        nestedTracker.track(event);
     }
 }

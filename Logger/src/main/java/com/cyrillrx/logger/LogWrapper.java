@@ -8,7 +8,7 @@ package com.cyrillrx.logger;
  */
 public abstract class LogWrapper implements LogChild {
 
-    private final int      mSeverity;
+    private final int mSeverity;
     private final LogChild mWrapped;
 
     public LogWrapper(int severity, LogChild logger) {

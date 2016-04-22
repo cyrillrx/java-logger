@@ -14,24 +14,56 @@ import java.util.concurrent.BlockingQueue;
  */
 public class StreamingTracker extends AsyncTracker<BlockingQueue<TrackEvent>> {
 
-    public StreamingTracker(TrackerChild tracker, int capacity, int workerCount, TrackFilter filter) {
-        super(tracker, createQueue(capacity), workerCount, filter);
+    protected StreamingTracker(TrackerChild tracker, int capacity, TrackFilter filter) {
+        super(tracker, createQueue(capacity), filter);
     }
 
-    public StreamingTracker(TrackerChild tracker, int capacity, int workerCount) {
-        super(tracker, createQueue(capacity), workerCount);
-    }
-
-    public StreamingTracker(TrackerChild tracker, int capacity) {
-        super(tracker, createQueue(capacity), 1);
+    private static BlockingQueue<TrackEvent> createQueue(int capacity) {
+        return new ArrayBlockingQueue<>(capacity, true);
     }
 
     @Override
     protected StreamConsumer createConsumer() {
-        return new StreamConsumer(wrapped, queue);
+        return new StreamConsumer(nestedTracker, queue);
     }
 
-    protected static BlockingQueue<TrackEvent> createQueue(int capacity) {
-        return new ArrayBlockingQueue<>(capacity, true);
+    public static class Builder {
+
+        private TrackerChild nestedTracker;
+        private TrackFilter filter;
+
+        private int workerCount;
+        private int capacity;
+
+        public Builder() {
+            workerCount = DEFAULT_WORKER_COUNT;
+        }
+
+        public Builder setNestedTracker(TrackerChild tracker) {
+            nestedTracker = tracker;
+            return this;
+        }
+
+        public Builder setFilter(TrackFilter filter) {
+            this.filter = filter;
+            return this;
+        }
+
+        public Builder setCapacity(int capacity) {
+            this.capacity = capacity;
+            return this;
+        }
+
+        public Builder setWorkerCount(int workerCount) {
+            this.workerCount = workerCount;
+            return this;
+        }
+
+        public StreamingTracker build() {
+
+            final StreamingTracker wrapper = new StreamingTracker(nestedTracker, capacity, filter);
+            wrapper.start(workerCount);
+            return wrapper;
+        }
     }
 }
