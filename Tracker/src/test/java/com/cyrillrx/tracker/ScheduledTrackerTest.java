@@ -47,7 +47,7 @@ public class ScheduledTrackerTest {
 
         // Check that the traces were sent
         Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, logTracker.getCount());
-        Assert.assertTrue("Should contain category " + CATEGORY_TEST, logTracker.categories.contains(CATEGORY_TEST));
+        Assert.assertTrue("Should contain category " + CATEGORY_TEST, logTracker.getCategories().contains(CATEGORY_TEST));
     }
 
 }

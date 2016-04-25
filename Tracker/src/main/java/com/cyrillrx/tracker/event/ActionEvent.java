@@ -1,9 +1,5 @@
 package com.cyrillrx.tracker.event;
 
-import com.cyrillrx.tracker.context.TrackerContext;
-
-import java.util.Map;
-
 /**
  * @author Cyril Leroux
  *         Created on 24/11/2015.
@@ -29,12 +25,11 @@ public class ActionEvent extends TrackEvent {
 
     public boolean getBoolValue() { return boolValue; }
 
-    public static class Builder {
-
-        private final ActionEvent event;
+    public static class Builder extends EventBuilder<ActionEvent> {
 
         public Builder() { event = new ActionEvent(); }
 
+        @Override
         public ActionEvent build() {
 
             if (event.category == null || event.category.isEmpty() ||
@@ -43,36 +38,6 @@ public class ActionEvent extends TrackEvent {
             }
 
             return event;
-        }
-
-        public Builder setContext(TrackerContext context) {
-            event.context = context;
-            return this;
-        }
-
-        public Builder setCategory(String category) {
-            event.category = category;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            event.name = name;
-            return this;
-        }
-
-        public Builder setSource(String source) {
-            event.source = source;
-            return this;
-        }
-
-        public Builder setId(String id) {
-            event.id = id;
-            return this;
-        }
-
-        public Builder setType(String type) {
-            event.type = type;
-            return this;
         }
 
         public Builder setAction(String action) {
@@ -97,16 +62,6 @@ public class ActionEvent extends TrackEvent {
 
         public Builder setValue(boolean value) {
             event.boolValue = value;
-            return this;
-        }
-
-        public Builder putCustomAttribute(String key, String value) {
-            event.customAttributes.put(key, value);
-            return this;
-        }
-
-        public Builder putCustomAttributes(Map<String, String> values) {
-            event.customAttributes.putAll(values);
             return this;
         }
     }

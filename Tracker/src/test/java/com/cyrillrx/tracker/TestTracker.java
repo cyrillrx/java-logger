@@ -16,9 +16,7 @@ class TestTracker implements TrackerChild {
 
     @Override
     public void track(TrackEvent event) {
-
         categories.add(event.getCategory());
-        System.out.println(event.getCategory());
     }
 
     @Override
