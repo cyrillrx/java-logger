@@ -17,38 +17,26 @@ public class ActionEvent extends TrackEvent {
     protected float floatValue;
     protected boolean boolValue;
 
-    ActionEvent() {
-    }
+    ActionEvent() { }
 
-    public String getAction() {
-        return action;
-    }
+    public String getAction() { return action; }
 
-    public int getIntValue() {
-        return intValue;
-    }
+    public int getIntValue() { return intValue; }
 
-    public long getLongValue() {
-        return longValue;
-    }
+    public long getLongValue() { return longValue; }
 
-    public float getFloatValue() {
-        return floatValue;
-    }
+    public float getFloatValue() { return floatValue; }
 
-    public boolean getBoolValue() {
-        return boolValue;
-    }
+    public boolean getBoolValue() { return boolValue; }
 
     public static class Builder {
 
         private final ActionEvent event;
 
-        public Builder() {
-            event = new ActionEvent();
-        }
+        public Builder() { event = new ActionEvent(); }
 
         public ActionEvent build() {
+
             if (event.category == null || event.category.isEmpty() ||
                     event.action == null || event.action.isEmpty()) {
                 throw new IllegalStateException("Category and action are mandatory");
@@ -67,6 +55,16 @@ public class ActionEvent extends TrackEvent {
             return this;
         }
 
+        public Builder setName(String name) {
+            event.name = name;
+            return this;
+        }
+
+        public Builder setSource(String source) {
+            event.source = source;
+            return this;
+        }
+
         public Builder setId(String id) {
             event.id = id;
             return this;
@@ -74,11 +72,6 @@ public class ActionEvent extends TrackEvent {
 
         public Builder setType(String type) {
             event.type = type;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            event.name = name;
             return this;
         }
 

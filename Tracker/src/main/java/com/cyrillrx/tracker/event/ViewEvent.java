@@ -10,18 +10,16 @@ import java.util.Map;
  */
 public class ViewEvent extends TrackEvent {
 
-    ViewEvent() {
-    }
+    ViewEvent() { }
 
     public static class Builder {
 
         private final ViewEvent event;
 
-        public Builder() {
-            event = new ViewEvent();
-        }
+        public Builder() { event = new ViewEvent(); }
 
         public ViewEvent build() {
+
             if (event.category == null || event.category.isEmpty() ||
                     event.name == null || event.name.isEmpty()) {
                 throw new IllegalStateException("Category and name are mandatory");
@@ -40,6 +38,16 @@ public class ViewEvent extends TrackEvent {
             return this;
         }
 
+        public Builder setName(String name) {
+            event.name = name;
+            return this;
+        }
+
+        public Builder setSource(String source) {
+            event.source = source;
+            return this;
+        }
+
         public Builder setId(String id) {
             event.id = id;
             return this;
@@ -47,11 +55,6 @@ public class ViewEvent extends TrackEvent {
 
         public Builder setType(String type) {
             event.type = type;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            event.name = name;
             return this;
         }
 

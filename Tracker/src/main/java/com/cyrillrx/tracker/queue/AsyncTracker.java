@@ -30,9 +30,7 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
         this.queue = queue;
     }
 
-    public AsyncTracker(TrackerChild tracker, EventQueue queue) {
-        this(tracker, queue, null);
-    }
+    public AsyncTracker(TrackerChild tracker, EventQueue queue) { this(tracker, queue, null); }
 
     /**
      * Adds the event to the queue where it will be consume.
@@ -40,9 +38,7 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
      * @param event The event to add to the queue.
      */
     @Override
-    protected void doTrack(TrackEvent event) {
-        queue.add(event);
-    }
+    protected void doTrack(TrackEvent event) { queue.add(event); }
 
     /**
      * Starts the event queue consumers.

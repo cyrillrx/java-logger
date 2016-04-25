@@ -12,12 +12,9 @@ public class RatingEvent extends TrackEvent {
 
     protected int rating;
 
-    RatingEvent() {
-    }
+    RatingEvent() { }
 
-    public int getRating() {
-        return rating;
-    }
+    public int getRating() { return rating; }
 
     public static class Builder {
 
@@ -31,6 +28,7 @@ public class RatingEvent extends TrackEvent {
         }
 
         public RatingEvent build() {
+
             if (event.category == null || event.category.isEmpty() ||
                     event.id == null || event.id.isEmpty() ||
                     event.type == null || event.type.isEmpty() ||
@@ -51,6 +49,16 @@ public class RatingEvent extends TrackEvent {
             return this;
         }
 
+        public Builder setName(String name) {
+            event.name = name;
+            return this;
+        }
+
+        public Builder setSource(String source) {
+            event.source = source;
+            return this;
+        }
+
         public Builder setId(String id) {
             event.id = id;
             return this;
@@ -58,11 +66,6 @@ public class RatingEvent extends TrackEvent {
 
         public Builder setType(String type) {
             event.type = type;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            event.name = name;
             return this;
         }
 

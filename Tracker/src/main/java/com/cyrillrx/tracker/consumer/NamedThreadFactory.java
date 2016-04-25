@@ -1,6 +1,5 @@
 package com.cyrillrx.tracker.consumer;
 
-import java.util.Locale;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -18,11 +17,7 @@ public class NamedThreadFactory implements ThreadFactory {
     }
 
     @Override
-    public Thread newThread(Runnable r) {
-        return new Thread(r, generateName());
-    }
+    public Thread newThread(Runnable r) { return new Thread(r, generateName()); }
 
-    private String generateName() {
-        return String.format(Locale.getDefault(), "%s%d", prefix, threadCount++);
-    }
+    private String generateName() { return prefix + threadCount; }
 }

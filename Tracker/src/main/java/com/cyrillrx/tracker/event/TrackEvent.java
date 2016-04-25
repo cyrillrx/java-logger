@@ -15,9 +15,11 @@ public class TrackEvent {
 
     protected TrackerContext context;
     protected String category;
+    protected String name;
+    protected String source;
+
     protected String id;
     protected String type;
-    protected String name;
 
     protected Map<String, String> customAttributes;
 
@@ -31,39 +33,28 @@ public class TrackEvent {
         return this;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
-    }
+    public long getCreatedAt() { return createdAt; }
 
-    public String getCategory() {
-        return category;
-    }
+    public String getCategory() { return category; }
 
-    public String getId() {
-        return id;
-    }
+    public String getName() { return name; }
 
-    public String getType() {
-        return type;
-    }
+    public String getSource() { return source; }
 
-    public String getName() {
-        return name;
-    }
+    public String getId() { return id; }
 
-    public Map<String, String> getCustomAttributes() {
-        return customAttributes;
-    }
+    public String getType() { return type; }
+
+    public Map<String, String> getCustomAttributes() { return customAttributes; }
 
     public static class Builder {
 
         private final TrackEvent event;
 
-        public Builder() {
-            event = new TrackEvent();
-        }
+        public Builder() { event = new TrackEvent(); }
 
         public TrackEvent build() {
+
             if (event.category == null || event.category.isEmpty()) {
                 throw new IllegalStateException("Category is mandatory");
             }
@@ -81,6 +72,16 @@ public class TrackEvent {
             return this;
         }
 
+        public Builder setName(String name) {
+            event.name = name;
+            return this;
+        }
+
+        public Builder setSource(String source) {
+            event.source = source;
+            return this;
+        }
+
         public Builder setId(String id) {
             event.id = id;
             return this;
@@ -88,11 +89,6 @@ public class TrackEvent {
 
         public Builder setType(String type) {
             event.type = type;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            event.name = name;
             return this;
         }
 

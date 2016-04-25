@@ -10,7 +10,7 @@ import java.util.List;
  * @author Cyril Leroux
  *         Created on 22/04/2016.
  */
-class MockLogTracker implements TrackerChild {
+class TestTracker implements TrackerChild {
 
     final List<String> categories = new ArrayList<>();
 
@@ -28,11 +28,8 @@ class MockLogTracker implements TrackerChild {
         }
     }
 
-    List<String> getCategories() {
-        return categories;
-    }
+    List<String> getCategories() { return categories; }
 
-    int getCount() {
-        return categories.size();
-    }
+    int getCount() { return categories.size(); }
+
 }

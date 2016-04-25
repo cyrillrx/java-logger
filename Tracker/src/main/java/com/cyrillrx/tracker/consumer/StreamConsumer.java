@@ -11,9 +11,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class StreamConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
 
-    public StreamConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) {
-        super(tracker, queue);
-    }
+    public StreamConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) { super(tracker, queue); }
 
     @Override
     public void run() {
@@ -46,7 +44,5 @@ public class StreamConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
         }
     }
 
-    private synchronized void doConsume(TrackEvent event) {
-        tracker.track(event);
-    }
+    private synchronized void doConsume(TrackEvent event) { tracker.track(event); }
 }

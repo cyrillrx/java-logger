@@ -31,18 +31,14 @@ public abstract class TrackWrapper implements TrackerChild, TrackFilter {
     }
 
     @Override
-    public void track(Collection<TrackEvent> events) {
+    public final void track(Collection<TrackEvent> events) {
         for (TrackEvent event : events) {
             track(event);
         }
     }
 
     @Override
-    public boolean shouldTrack(TrackEvent event) {
-        return filter == null || filter.shouldTrack(event);
-    }
+    public boolean shouldTrack(TrackEvent event) { return filter == null || filter.shouldTrack(event); }
 
-    protected void doTrack(TrackEvent event) {
-        nestedTracker.track(event);
-    }
+    protected void doTrack(TrackEvent event) { nestedTracker.track(event); }
 }

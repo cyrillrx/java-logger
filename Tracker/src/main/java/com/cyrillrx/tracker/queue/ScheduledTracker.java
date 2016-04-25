@@ -18,13 +18,9 @@ public class ScheduledTracker extends AsyncTracker<Queue<TrackEvent>> {
     protected TimeUnit timeUnit;
     protected long timeDuration;
 
-    protected ScheduledTracker(TrackerChild tracker, TrackFilter filter) {
-        super(tracker, createQueue(), filter);
-    }
+    protected ScheduledTracker(TrackerChild tracker, TrackFilter filter) { super(tracker, createQueue(), filter); }
 
-    private static Queue<TrackEvent> createQueue() {
-        return new ArrayDeque<>();
-    }
+    private static Queue<TrackEvent> createQueue() { return new ArrayDeque<>(); }
 
     @Override
     protected ScheduledConsumer createConsumer() {

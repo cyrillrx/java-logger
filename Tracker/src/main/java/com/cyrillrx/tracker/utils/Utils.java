@@ -1,4 +1,4 @@
-package com.cyrillrx.tracker;
+package com.cyrillrx.tracker.utils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,8 +9,11 @@ import java.util.concurrent.TimeUnit;
 public class Utils {
 
     public static void wait(long timeDuration, TimeUnit timeUnit) {
+
         try {
             timeUnit.sleep(timeDuration);
-        } catch (InterruptedException e) { }
+        } catch (InterruptedException e) {
+            // TODO log error
+        }
     }
 }

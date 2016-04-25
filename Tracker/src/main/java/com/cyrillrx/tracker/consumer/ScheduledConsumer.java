@@ -2,6 +2,7 @@ package com.cyrillrx.tracker.consumer;
 
 import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
+import com.cyrillrx.tracker.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +30,14 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
         running = true;
         while (running) {
             consume();
-
-            try {
-                timeUnit.sleep(timeDuration);
-            } catch (InterruptedException ex) {
-                running = false;
-            }
+            Utils.wait(timeDuration, timeUnit);
         }
     }
 
     protected void consume() {
 
-        final List<TrackEvent> batch = new ArrayList<>();
+        // Events to be sent
+        final List<TrackEvent> eventBucket = new ArrayList<>();
 
         TrackEvent event;
         while (!events.isEmpty()) {
@@ -51,19 +48,18 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
                 running = false;
                 break;
             }
-            batch.add(event);
+            eventBucket.add(event);
         }
 
         try {
-            doConsume(batch);
+            doConsume(eventBucket);
 
         } catch (Exception e) {
             // TODO implement retry policy
-            events.addAll(batch);
+            // TODO log warning
+            events.addAll(eventBucket);
         }
     }
 
-    private synchronized void doConsume(List<TrackEvent> events) {
-        tracker.track(events);
-    }
+    private synchronized void doConsume(List<TrackEvent> events) { tracker.track(events); }
 }

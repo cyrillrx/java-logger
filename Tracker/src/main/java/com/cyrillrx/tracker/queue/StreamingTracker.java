@@ -23,9 +23,7 @@ public class StreamingTracker extends AsyncTracker<BlockingQueue<TrackEvent>> {
     }
 
     @Override
-    protected StreamConsumer createConsumer() {
-        return new StreamConsumer(nestedTracker, queue);
-    }
+    protected StreamConsumer createConsumer() { return new StreamConsumer(nestedTracker, queue); }
 
     public static class Builder {
 
@@ -35,9 +33,7 @@ public class StreamingTracker extends AsyncTracker<BlockingQueue<TrackEvent>> {
         private int workerCount;
         private int capacity;
 
-        public Builder() {
-            workerCount = DEFAULT_WORKER_COUNT;
-        }
+        public Builder() { workerCount = DEFAULT_WORKER_COUNT; }
 
         public Builder setNestedTracker(TrackerChild tracker) {
             nestedTracker = tracker;
