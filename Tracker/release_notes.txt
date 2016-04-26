@@ -1,8 +1,9 @@
 LRX Tracker Release Notes
 
-2016-04-22 - v0.6.0
-- Tracker can either stream or scheduled
-- Created unit tests
+2016-04-26 - v0.6.0
+- Tracker can either stream or scheduled event consumption
+- Streaming tracker has a retry policy implementation
+- Added more unit tests
 
 2016-04-21 - v0.5.0
 - Implemented queues and consumers

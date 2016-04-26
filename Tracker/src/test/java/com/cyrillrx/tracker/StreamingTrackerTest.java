@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class StreamingTrackerTest {
 
-    private static final int TRACE_COUNT = 10;
+    private static final int EVENT_COUNT = 10;
 
     @Test
     public void testConsistency() {
@@ -27,6 +27,7 @@ public class StreamingTrackerTest {
 
         Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
+        // Track one event
         tracker.track(TestUtils.createFakeEvent(TestUtils.EVENT_CATEGORY));
         TestUtils.wait100Millis();
 
@@ -72,16 +73,16 @@ public class StreamingTrackerTest {
 
         Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
-        // Adds TRACE_COUNT traces
-        TestUtils.trackEventsOneByOne(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+        // Track EVENT_COUNT events
+        TestUtils.trackEventsOneByOne(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
         TestUtils.wait100Millis();
-        Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, nestedTracker.getEventCount());
+        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, nestedTracker.getEventCount());
 
-        // Adds TRACE_COUNT traces
-        TestUtils.trackEventsOneByOne(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+        // Track EVENT_COUNT events
+        TestUtils.trackEventsOneByOne(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
         TestUtils.wait100Millis();
-        int totalTraces = TRACE_COUNT * 2;
-        Assert.assertEquals("Should be " + totalTraces, totalTraces, nestedTracker.getEventCount());
+        int totalEventCount = EVENT_COUNT * 2;
+        Assert.assertEquals("Should be " + totalEventCount, totalEventCount, nestedTracker.getEventCount());
     }
 
     @Test
@@ -89,22 +90,22 @@ public class StreamingTrackerTest {
 
         System.out.println("Test started");
 
-        final BasicTracker logTracker = new BasicTracker();
+        final BasicTracker nestedTracker = new BasicTracker();
         final StreamingTracker tracker = new StreamingTracker.Builder()
-                .setNestedTracker(logTracker)
+                .setNestedTracker(nestedTracker)
                 .setCapacity(100)
                 .build();
 
-        Assert.assertTrue("Should be empty", logTracker.isEmpty());
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
-        TestUtils.trackEventsBatch(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+        TestUtils.trackEventsBatch(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
         TestUtils.wait100Millis();
-        Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, logTracker.getEventCount());
+        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, nestedTracker.getEventCount());
 
-        TestUtils.trackEventsBatch(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+        TestUtils.trackEventsBatch(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
         TestUtils.wait100Millis();
-        int totalTraces = TRACE_COUNT * 2;
-        Assert.assertEquals("Should be " + totalTraces, totalTraces, logTracker.getEventCount());
+        int totalEventCount = EVENT_COUNT * 2;
+        Assert.assertEquals("Should be " + totalEventCount, totalEventCount, nestedTracker.getEventCount());
     }
 
 }

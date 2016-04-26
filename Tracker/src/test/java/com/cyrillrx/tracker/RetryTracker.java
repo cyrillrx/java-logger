@@ -19,7 +19,7 @@ class RetryTracker extends BasicTracker {
 
         if (fail) {
             fail = false;
-            throw new RuntimeException("Event trace failed on purpose !");
+            throw new RuntimeException("Failed tracking the event on purpose !");
 
         } else {
             super.track(event);
