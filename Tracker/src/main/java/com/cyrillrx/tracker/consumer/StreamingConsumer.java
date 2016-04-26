@@ -3,15 +3,25 @@ package com.cyrillrx.tracker.consumer;
 import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 /**
  * @author Cyril Leroux
  *         Created on 20/04/16.
  */
-public class StreamConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
+public class StreamingConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
 
-    public StreamConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) { super(tracker, queue); }
+    protected Queue<TrackEvent> retryQueue;
+
+    public StreamingConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue, Queue<TrackEvent> retryQueue) {
+        super(tracker, queue);
+        this.retryQueue = retryQueue;
+    }
+
+    public StreamingConsumer(TrackerChild tracker, BlockingQueue<TrackEvent> queue) {
+        this(tracker, queue, null);
+    }
 
     @Override
     public void run() {
@@ -34,9 +44,14 @@ public class StreamConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
 
             try {
                 doConsume(event);
+
             } catch (Exception e) {
-                // TODO implement retry policy
-                events.add(event);
+
+                if (retryQueue != null) {
+                    retryQueue.add(event);
+                } else {
+                    // TODO Log : No retry implemented
+                }
             }
 
         } catch (InterruptedException e) {

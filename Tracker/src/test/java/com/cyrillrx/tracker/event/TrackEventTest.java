@@ -26,16 +26,16 @@ public class TrackEventTest {
                 .putCustomAttribute(TestUtils.KEY_CUSTOM_2, "world")
                 .build();
 
-        Assert.assertEquals("Event category is not as expected.", TestUtils.EVENT_CATEGORY, event.getCategory());
-        Assert.assertEquals("Event name is not as expected.", TestUtils.EVENT_NAME, event.getName());
-        Assert.assertEquals("Event source is not as expected.", TestUtils.EVENT_SOURCE, event.getSource());
-        Assert.assertEquals("Event id is not as expected.", TestUtils.EVENT_ID, event.getId());
-        Assert.assertEquals("Event type is not as expected.", TestUtils.EVENT_TYPE, event.getType());
+        Assert.assertEquals("Event category is inconsistent.", TestUtils.EVENT_CATEGORY, event.getCategory());
+        Assert.assertEquals("Event name is inconsistent.", TestUtils.EVENT_NAME, event.getName());
+        Assert.assertEquals("Event source is inconsistent.", TestUtils.EVENT_SOURCE, event.getSource());
+        Assert.assertEquals("Event id is inconsistent.", TestUtils.EVENT_ID, event.getId());
+        Assert.assertEquals("Event type is inconsistent.", TestUtils.EVENT_TYPE, event.getType());
 
         final Map<String, String> customAttributes = event.getCustomAttributes();
-        Assert.assertEquals("Custom attributes count is not as expected.", 2, customAttributes.size());
-        Assert.assertEquals("Custom attr 1 is not as expected.", "hello", customAttributes.get(TestUtils.KEY_CUSTOM_1));
-        Assert.assertEquals("Custom attr 2 is not as expected.", "world", customAttributes.get(TestUtils.KEY_CUSTOM_2));
+        Assert.assertEquals("Custom attributes count is inconsistent.", 2, customAttributes.size());
+        Assert.assertEquals("Custom attr 1 is inconsistent.", "hello", customAttributes.get(TestUtils.KEY_CUSTOM_1));
+        Assert.assertEquals("Custom attr 2 is inconsistent.", "world", customAttributes.get(TestUtils.KEY_CUSTOM_2));
     }
 
     @Test

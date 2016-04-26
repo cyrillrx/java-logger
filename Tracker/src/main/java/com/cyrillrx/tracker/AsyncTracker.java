@@ -1,8 +1,5 @@
-package com.cyrillrx.tracker.queue;
+package com.cyrillrx.tracker;
 
-import com.cyrillrx.tracker.TrackFilter;
-import com.cyrillrx.tracker.TrackWrapper;
-import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.consumer.EventConsumer;
 import com.cyrillrx.tracker.consumer.NamedThreadFactory;
 import com.cyrillrx.tracker.event.TrackEvent;
@@ -48,18 +45,22 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
     protected void start(int workerCount) {
 
         final int processorCount = Runtime.getRuntime().availableProcessors();
-        final ExecutorService service = Executors.newFixedThreadPool(
+        final ExecutorService executorService = Executors.newFixedThreadPool(
                 processorCount,
                 new NamedThreadFactory(THREAD_PREFIX));
 
         try {
             for (int i = 0; i < workerCount; ++i) {
-                service.submit(createConsumer());
+                submitToService(executorService);
             }
 
         } finally {
-            service.shutdown();
+            executorService.shutdown();
         }
+    }
+
+    protected void submitToService(ExecutorService service) {
+        service.submit(createConsumer());
     }
 
     protected abstract EventConsumer<EventQueue> createConsumer();

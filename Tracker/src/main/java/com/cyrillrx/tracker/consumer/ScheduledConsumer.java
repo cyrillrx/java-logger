@@ -55,7 +55,8 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
             doConsume(eventBucket);
 
         } catch (Exception e) {
-            // TODO implement retry policy
+
+            // Retry policy
             // TODO log warning
             events.addAll(eventBucket);
         }

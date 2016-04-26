@@ -1,7 +1,5 @@
-package com.cyrillrx.tracker.queue;
+package com.cyrillrx.tracker;
 
-import com.cyrillrx.tracker.TrackFilter;
-import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.consumer.ScheduledConsumer;
 import com.cyrillrx.tracker.event.TrackEvent;
 

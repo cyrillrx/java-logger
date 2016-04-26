@@ -7,7 +7,7 @@ package com.cyrillrx.tracker.event;
 public class LogEvent extends TrackEvent {
 
     protected int severity;
-    protected int priority;
+    protected String tag;
     protected String message;
     protected String screen;
     protected String screenExecId;
@@ -16,7 +16,7 @@ public class LogEvent extends TrackEvent {
 
     public int getSeverity() { return severity; }
 
-    public int getPriority() { return priority; }
+    public String getTag() { return tag; }
 
     public String getMessage() { return message; }
 
@@ -42,8 +42,8 @@ public class LogEvent extends TrackEvent {
             return this;
         }
 
-        public Builder setPriority(int priority) {
-            event.priority = priority;
+        public Builder setTag(String tag) {
+            event.tag = tag;
             return this;
         }
 

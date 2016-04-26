@@ -1,10 +1,11 @@
 package com.cyrillrx.tracker;
 
-import com.cyrillrx.tracker.queue.ScheduledTracker;
+import com.cyrillrx.tracker.event.TrackEvent;
 import com.cyrillrx.tracker.utils.Utils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,40 +15,95 @@ import java.util.concurrent.TimeUnit;
 public class ScheduledTrackerTest {
 
     private static final int TRACE_COUNT = 10;
-    private static final int INTERVAL = 2;
-    private static final String CATEGORY_TEST = "test";
+    private static final int INTERVAL = 200;
+    private static final TimeUnit UNIT = TimeUnit.MILLISECONDS;
 
     @Test
-    public void testScheduledTracker() {
+    public void testConsistency() {
 
         System.out.println("Test started");
 
-        final TestTracker logTracker = new TestTracker();
+        final BasicTracker nestedTracker = new BasicTracker();
         final ScheduledTracker tracker = new ScheduledTracker.Builder()
-                .setNestedTracker(logTracker)
-                .setInterval(INTERVAL, TimeUnit.SECONDS)
+                .setNestedTracker(nestedTracker)
+                .setInterval(INTERVAL, UNIT)
                 .build();
 
         // Wait until the tracker actually starts tracking
         TestUtils.wait100Millis();
 
-        Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
-        // Adds TRACE_COUNT traces
-        TestUtils.trackEventsOneByOne(tracker, TRACE_COUNT, CATEGORY_TEST);
-        // Check emptiness
-        Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
+        // Track one event
+        tracker.track(TestUtils.createFakeEvent(TestUtils.EVENT_CATEGORY));
 
-        // Wait then check again
-        TestUtils.wait100Millis();
-        Assert.assertTrue("Should be empty", logTracker.getCategories().isEmpty());
+        // Assert emptiness
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
         // Wait enough time for the traces to be consumed
-        Utils.wait(INTERVAL, TimeUnit.SECONDS);
+        Utils.wait(INTERVAL, UNIT);
 
-        // Check that the traces were sent
-        Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, logTracker.getCount());
-        Assert.assertTrue("Should contain category " + CATEGORY_TEST, logTracker.getCategories().contains(CATEGORY_TEST));
+        // Assert that the traces were sent
+        Assert.assertEquals("Should be 1", 1, nestedTracker.getEventCount());
+
+        final List<TrackEvent> trackedEvents = nestedTracker.getEvents();
+        for (TrackEvent event : trackedEvents) {
+            Assert.assertTrue("Category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY.equals(event.getCategory()));
+        }
+    }
+
+    @Test
+    public void testOneByOne() {
+
+        final BasicTracker nestedTracker = new BasicTracker();
+        final ScheduledTracker tracker = new ScheduledTracker.Builder()
+                .setNestedTracker(nestedTracker)
+                .setInterval(INTERVAL, UNIT)
+                .build();
+
+        // Wait until the tracker actually starts tracking
+        TestUtils.wait100Millis();
+
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+
+        // Track TRACE_COUNT events
+        TestUtils.trackEventsOneByOne(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+
+        // Assert emptiness
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+
+        // Wait enough time for the events to be consumed
+        Utils.wait(INTERVAL, UNIT);
+
+        // Assert that the events were sent
+        Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, nestedTracker.getEventCount());
+    }
+
+    @Test
+    public void testBatch() {
+
+        final BasicTracker nestedTracker = new BasicTracker();
+        final ScheduledTracker tracker = new ScheduledTracker.Builder()
+                .setNestedTracker(nestedTracker)
+                .setInterval(INTERVAL, UNIT)
+                .build();
+
+        // Wait until the tracker actually starts tracking
+        TestUtils.wait100Millis();
+
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+
+        // Track TRACE_COUNT events
+        TestUtils.trackEventsBatch(tracker, TRACE_COUNT, TestUtils.EVENT_CATEGORY);
+
+        // Assert emptiness
+        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+
+        // Wait enough time for the events to be consumed
+        Utils.wait(INTERVAL, UNIT);
+
+        // Assert that the events were sent
+        Assert.assertEquals("Should be " + TRACE_COUNT, TRACE_COUNT, nestedTracker.getEventCount());
     }
 
 }

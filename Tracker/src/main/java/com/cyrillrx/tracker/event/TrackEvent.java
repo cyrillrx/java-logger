@@ -13,9 +13,11 @@ public class TrackEvent {
 
     protected final long createdAt;
 
+    /** Global context. Not directly linked to the event. */
     protected TrackerContext context;
     protected String category;
     protected String name;
+    /** Source of the event (class name, or ui screen) */
     protected String source;
 
     protected String id;
