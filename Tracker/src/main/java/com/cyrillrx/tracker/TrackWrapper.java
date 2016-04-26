@@ -6,7 +6,7 @@ import java.util.Collection;
 
 /**
  * A {@link TrackerChild} wrapper aware of the filter to apply.
- * If no filter is set, the com.cyrillrx.tracker tracks all events.
+ * If no filter is set, the tracker tracks all events.
  *
  * @author Cyril Leroux
  *         Created on 11/11/15
