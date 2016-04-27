@@ -43,8 +43,10 @@ public class TrackEvent {
 
     public String getSource() { return source; }
 
+    @Deprecated
     public String getId() { return id; }
 
+    @Deprecated
     public String getType() { return type; }
 
     public Map<String, String> getCustomAttributes() { return customAttributes; }
@@ -85,9 +87,11 @@ public class TrackEvent {
             return (Builder) super.putCustomAttributes(values);
         }
 
+        @Deprecated
         @Override
         public Builder setId(String id) { return (Builder) super.setId(id); }
 
+        @Deprecated
         @Override
         public Builder setType(String type) { return (Builder) super.setType(type); }
     }

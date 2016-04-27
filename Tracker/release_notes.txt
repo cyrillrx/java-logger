@@ -1,5 +1,8 @@
 LRX Tracker Release Notes
 
+2016-xxx - v0.6.2
+- Deprecated event's attributes type and id
+
 2016-04-27 - v0.6.1
 - Fixed event builder's inheritance
 

@@ -66,9 +66,11 @@ public class ActionEvent extends TrackEvent {
             return (Builder) super.putCustomAttributes(values);
         }
 
+        @Deprecated
         @Override
         public Builder setId(String id) { return (Builder) super.setId(id); }
 
+        @Deprecated
         @Override
         public Builder setType(String type) { return (Builder) super.setType(type); }
 
