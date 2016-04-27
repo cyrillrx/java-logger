@@ -4,6 +4,7 @@ LRX Tracker Release Notes
 - Fixed event builder's inheritance
 
 2016-04-26 - v0.6.0
+- The hub tracker now injects his context into tracked events
 - Tracker can either stream or scheduled event consumption
 - Streaming tracker has a retry policy implementation
 - Added more unit tests
