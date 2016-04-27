@@ -1,5 +1,8 @@
 LRX Tracker Release Notes
 
+2016-04-27 - v0.6.1
+- Fixed event builder's inheritance
+
 2016-04-26 - v0.6.0
 - Tracker can either stream or scheduled event consumption
 - Streaming tracker has a retry policy implementation

@@ -3,9 +3,11 @@ package com.cyrillrx.tracker;
 import com.cyrillrx.tracker.context.TrackerContext;
 import com.cyrillrx.tracker.event.TrackEvent;
 import com.cyrillrx.tracker.utils.Utils;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,8 +22,10 @@ public class TestUtils {
     public static final String EVENT_ID = "home";
     public static final String EVENT_TYPE = "screen";
 
-    public static final String KEY_CUSTOM_1 = "key_custom_1";
-    public static final String KEY_CUSTOM_2 = "key_custom_2";
+    public static final String KEY_1 = "key_custom_1";
+    public static final String KEY_2 = "key_custom_2";
+    public static final String VALUE_1 = "hello";
+    public static final String VALUE_2 = "world";
 
     public static TrackerContext createFakeContext() {
         return new TrackerContext()
@@ -53,4 +57,18 @@ public class TestUtils {
     }
 
     static void wait100Millis() { Utils.wait(100, TimeUnit.MILLISECONDS); }
+
+    public static void assertTrackEventConsistency(TrackEvent event) {
+
+        Assert.assertEquals("Event category is inconsistent.", TestUtils.EVENT_CATEGORY, event.getCategory());
+        Assert.assertEquals("Event name is inconsistent.", TestUtils.EVENT_NAME, event.getName());
+        Assert.assertEquals("Event source is inconsistent.", TestUtils.EVENT_SOURCE, event.getSource());
+        Assert.assertEquals("Event id is inconsistent.", TestUtils.EVENT_ID, event.getId());
+        Assert.assertEquals("Event type is inconsistent.", TestUtils.EVENT_TYPE, event.getType());
+
+        final Map<String, String> customAttributes = event.getCustomAttributes();
+        Assert.assertEquals("Custom attributes count is inconsistent.", 2, customAttributes.size());
+        Assert.assertEquals("Custom attr 1 is inconsistent.", VALUE_1, customAttributes.get(TestUtils.KEY_1));
+        Assert.assertEquals("Custom attr 2 is inconsistent.", VALUE_2, customAttributes.get(TestUtils.KEY_2));
+    }
 }

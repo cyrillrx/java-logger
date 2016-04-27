@@ -6,14 +6,14 @@ import org.junit.Test;
 
 /**
  * @author Cyril Leroux
- *         Created on 25/04/2016.
+ *         Created on 27/04/2016.
  */
-public class TrackEventTest {
+public class RatingEventTest {
 
     @Test
     public void testBuild() {
 
-        final TrackEvent event = new TrackEvent.Builder()
+        final RatingEvent event = new RatingEvent.Builder()
                 .setContext(TestUtils.createFakeContext())
                 .setCategory(TestUtils.EVENT_CATEGORY)
                 .setName(TestUtils.EVENT_NAME)
@@ -22,31 +22,11 @@ public class TrackEventTest {
                 .setType(TestUtils.EVENT_TYPE)
                 .putCustomAttribute(TestUtils.KEY_1, TestUtils.VALUE_1)
                 .putCustomAttribute(TestUtils.KEY_2, TestUtils.VALUE_2)
+                .setRating(10)
                 .build();
 
         TestUtils.assertTrackEventConsistency(event);
-    }
 
-    @Test
-    public void testBuildWithoutCategory() {
-
-        try {
-            TrackEvent event = new TrackEvent.Builder()
-                    .build();
-            Assert.fail("Should have fail (no category filled).");
-
-        } catch (IllegalStateException ignored) { }
-    }
-
-    @Test
-    public void testBuildWithEmptyCategory() {
-
-        try {
-            TrackEvent event = new TrackEvent.Builder()
-                    .setCategory("")
-                    .build();
-            Assert.fail("Should have fail (no category filled).");
-
-        } catch (IllegalStateException ignored) { }
+        Assert.assertEquals("Event rating is inconsistent.", 10, event.getRating());
     }
 }
