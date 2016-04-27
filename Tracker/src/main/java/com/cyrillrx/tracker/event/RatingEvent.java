@@ -12,7 +12,7 @@ public class RatingEvent extends TrackEvent {
 
     protected int rating;
 
-    RatingEvent() { }
+    protected RatingEvent() { }
 
     public int getRating() { return rating; }
 

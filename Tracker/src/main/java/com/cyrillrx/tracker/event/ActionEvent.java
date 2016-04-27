@@ -17,7 +17,7 @@ public class ActionEvent extends TrackEvent {
     protected float floatValue;
     protected boolean boolValue;
 
-    ActionEvent() { }
+    protected ActionEvent() { }
 
     public String getAction() { return action; }
 

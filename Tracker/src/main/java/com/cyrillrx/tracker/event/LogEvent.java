@@ -16,7 +16,7 @@ public class LogEvent extends TrackEvent {
     protected String screen;
     protected String screenExecId;
 
-    LogEvent() { }
+    protected LogEvent() { }
 
     public int getSeverity() { return severity; }
 

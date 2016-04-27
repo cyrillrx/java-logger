@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ViewEvent extends TrackEvent {
 
-    ViewEvent() { }
+    protected ViewEvent() { }
 
     public static class Builder extends EventBuilder<ViewEvent> {
 

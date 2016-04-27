@@ -25,7 +25,7 @@ public class TrackEvent {
 
     protected Map<String, String> customAttributes;
 
-    TrackEvent() {
+    protected TrackEvent() {
         createdAt = System.currentTimeMillis();
         customAttributes = new HashMap<>();
     }
