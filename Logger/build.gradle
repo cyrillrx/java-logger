@@ -4,11 +4,22 @@ apply plugin: 'bintray-release'
 targetCompatibility = '1.7'
 sourceCompatibility = '1.7'
 
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+test {
+    testLogging {
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'logger'
-    version = '1.1.3'
+    version = '1.1.4'
     description = 'A modular logger component in java.'
     website = 'https://github.com/cyrillrx/java_logger'
 }

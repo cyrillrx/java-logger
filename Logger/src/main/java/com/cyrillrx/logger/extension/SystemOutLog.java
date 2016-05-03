@@ -5,6 +5,8 @@ import com.cyrillrx.logger.LogWrapper;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A ready-to-use severity-aware {@link LogChild} wrapping <code>System.out#println(String)</code> class.
@@ -29,7 +31,7 @@ public class SystemOutLog extends LogWrapper {
          */
         @Override
         public void verbose(String tag, String message) {
-            println("Verbose - %s - %s", tag, message);
+            println("%s - Verbose - %s - %s", getCurrentDateTime(), tag, message);
         }
 
         /**
@@ -51,7 +53,7 @@ public class SystemOutLog extends LogWrapper {
                 return;
             }
 
-            println("Verbose - %s - %s\n%s", tag, message, stackTrace);
+            println("Verbose - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
         }
 
         /**
@@ -60,7 +62,7 @@ public class SystemOutLog extends LogWrapper {
          */
         @Override
         public void debug(String tag, String message) {
-            println("Debug - %s - %s", tag, message);
+            println("%s - Debug   - %s - %s", getCurrentDateTime(), tag, message);
         }
 
         /**
@@ -82,7 +84,7 @@ public class SystemOutLog extends LogWrapper {
                 return;
             }
 
-            println("Debug - %s - %s\n%s", tag, message, stackTrace);
+            println("%s - Debug   - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
         }
 
         /**
@@ -91,7 +93,7 @@ public class SystemOutLog extends LogWrapper {
          */
         @Override
         public void info(String tag, String message) {
-            println("Info - %s - %s", tag, message);
+            println("%s - Info    - %s - %s", getCurrentDateTime(), tag, message);
         }
 
         /**
@@ -113,7 +115,7 @@ public class SystemOutLog extends LogWrapper {
                 return;
             }
 
-            println("Info - %s - %s\n%s", tag, message, stackTrace);
+            println("%s - Info    - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
         }
 
         /**
@@ -122,7 +124,7 @@ public class SystemOutLog extends LogWrapper {
          */
         @Override
         public void warning(String tag, String message) {
-            println("Warning - %s - %s", tag, message);
+            println("%s - Warning - %s - %s", getCurrentDateTime(), tag, message);
         }
 
         /**
@@ -144,7 +146,7 @@ public class SystemOutLog extends LogWrapper {
                 return;
             }
 
-            println("Warning - %s - %s\n%s", tag, message, stackTrace);
+            println("%s - Warning - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
         }
 
         /**
@@ -153,7 +155,7 @@ public class SystemOutLog extends LogWrapper {
          */
         @Override
         public void error(String tag, String message) {
-            println("Error - %s - %s", tag, message);
+            println("%s - Error   - %s - %s", getCurrentDateTime(), tag, message);
         }
 
         /**
@@ -175,7 +177,7 @@ public class SystemOutLog extends LogWrapper {
                 return;
             }
 
-            println("Error - %s - %s\n%s", tag, message, stackTrace);
+            println("%s - Error   - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
         }
     }
 
@@ -209,5 +211,12 @@ public class SystemOutLog extends LogWrapper {
      */
     private static void println(String format, Object... args) {
         println(String.format(format, args));
+    }
+
+    /**
+     * Formats data, prints into the "standard" output stream and then terminate the line.
+     */
+    private static String getCurrentDateTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }
