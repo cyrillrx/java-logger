@@ -1,7 +1,11 @@
 package com.cyrillrx.tracker;
 
+import com.cyrillrx.logger.Logger;
+import com.cyrillrx.logger.Severity;
+import com.cyrillrx.logger.extension.SystemOutLog;
 import com.cyrillrx.tracker.event.TrackEvent;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayDeque;
@@ -14,10 +18,21 @@ import java.util.concurrent.TimeUnit;
  */
 public class StreamingTrackerTest {
 
+    private static final String TAG = StreamingTracker.class.getSimpleName();
+
     private static final int EVENT_COUNT = 10;
+
+    @BeforeClass
+    public static void initLogger() {
+
+        Logger.initialize();
+        Logger.addChild(new SystemOutLog(Severity.VERBOSE));
+    }
 
     @Test
     public void testConsistency() {
+
+        Logger.info(TAG, "Started testConsistency");
 
         final BasicTracker nestedTracker = new BasicTracker();
         final StreamingTracker tracker = new StreamingTracker.Builder()
@@ -52,7 +67,9 @@ public class StreamingTrackerTest {
         Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 
         // First track should fail
+
         tracker.track(TestUtils.createFakeEvent(TestUtils.EVENT_CATEGORY));
+
         TestUtils.wait100Millis();
         Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
 

@@ -1,8 +1,10 @@
 LRX Tracker Release Notes
 
-2016-xxx - v0.6.2
+2016-05-03 - v0.6.2
 - Deprecated event's attributes type and id
 - Changed event's constructors visibility from package to protected
+- Removed abstract keyword from TrackerWrapper class
+- Implemented com.cyrillrx:logger lib to log StreamingConsumer errors
 
 2016-04-27 - v0.6.1
 - Fixed event builder's inheritance

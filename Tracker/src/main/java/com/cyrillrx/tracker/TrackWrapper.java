@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author Cyril Leroux
  *         Created on 11/11/15
  */
-public abstract class TrackWrapper implements TrackerChild, TrackFilter {
+public class TrackWrapper implements TrackerChild, TrackFilter {
 
     protected final TrackFilter filter;
     protected final TrackerChild nestedTracker;

@@ -1,5 +1,6 @@
 package com.cyrillrx.tracker.consumer;
 
+import com.cyrillrx.logger.Logger;
 import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 
@@ -11,6 +12,8 @@ import java.util.concurrent.BlockingQueue;
  *         Created on 20/04/16.
  */
 public class StreamingConsumer extends EventConsumer<BlockingQueue<TrackEvent>> {
+
+    private static final String TAG = StreamingConsumer.class.getSimpleName();
 
     protected Queue<TrackEvent> retryQueue;
 
@@ -47,10 +50,13 @@ public class StreamingConsumer extends EventConsumer<BlockingQueue<TrackEvent>> 
 
             } catch (Exception e) {
 
-                if (retryQueue != null) {
-                    retryQueue.add(event);
+                if (retryQueue == null) {
+                    Logger.error(TAG, "Error while consuming the event without a retry queue. Rethrowing exception", e);
+                    throw e;
+
                 } else {
-                    // TODO Log : No retry implemented
+                    Logger.info(TAG, "Error while consuming. Adding event to the retry queue.", e);
+                    retryQueue.add(event);
                 }
             }
 
