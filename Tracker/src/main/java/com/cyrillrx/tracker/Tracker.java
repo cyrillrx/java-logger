@@ -23,6 +23,8 @@ public class Tracker {
     private final Set<TrackerChild> trackers;
     private final TrackerContext context;
 
+    private ExceptionCatcher catcher;
+
     private Tracker() {
         trackers = new HashSet<>();
         context = new TrackerContext();
@@ -49,6 +51,12 @@ public class Tracker {
         return instance.context;
     }
 
+    public static synchronized ExceptionCatcher setCatcher(ExceptionCatcher catcher) {
+        checkInitialized();
+
+        return instance.catcher = catcher;
+    }
+
     public static synchronized void addChild(TrackerChild child) {
         checkInitialized();
 
@@ -67,7 +75,15 @@ public class Tracker {
         event.setContext(instance.context);
 
         for (TrackerChild tracker : instance.trackers) {
-            tracker.track(event);
+            try {
+                tracker.track(event);
+            } catch (Throwable t) {
+                try {
+                    instance.catcher.catchException(t);
+                } catch (Exception ignored) {
+                    // Prevent the catcher from throwing an exception
+                }
+            }
         }
     }
 
@@ -89,5 +105,9 @@ public class Tracker {
         if (instance != null) {
             throw new IllegalStateException(ERROR_ALREADY_INITIALIZED);
         }
+    }
+
+    public interface ExceptionCatcher {
+        void catchException(Throwable t);
     }
 }

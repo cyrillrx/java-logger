@@ -12,17 +12,20 @@ public class TrackerContext {
     private App app;
     private User user;
     private Device device;
+    private String userAgent;
 
     private Set<UserChangedListener> listeners;
 
     public TrackerContext() { listeners = new HashSet<>(); }
+
+    public App getApp() { return app; }
 
     public TrackerContext setApp(App app) {
         this.app = app;
         return this;
     }
 
-    public App getApp() { return app; }
+    public User getUser() { return user; }
 
     public TrackerContext setUser(User user) {
         this.user = user;
@@ -32,14 +35,19 @@ public class TrackerContext {
         return this;
     }
 
-    public User getUser() { return user; }
+    public Device getDevice() { return device; }
 
     public TrackerContext setDevice(Device device) {
         this.device = device;
         return this;
     }
 
-    public Device getDevice() { return device; }
+    public String getUserAgent() { return userAgent; }
+
+    public TrackerContext setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
 
     /**
      * Adds a listener that will be notified when {@link User} is updated.
@@ -102,7 +110,6 @@ public class TrackerContext {
         private String model;
         private String serial;
         private String display;
-        private String userAgent;
 
         public String getOs() { return os; }
 

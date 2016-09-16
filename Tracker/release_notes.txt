@@ -1,5 +1,8 @@
 LRX Tracker Release Notes
 
+2016-09-16 - v0.6.3
+- Added an exception catcher to prevent trackers from crashing the host application
+
 2016-05-03 - v0.6.2
 - Deprecated event's attributes type and id
 - Changed event's constructors visibility from package to protected
