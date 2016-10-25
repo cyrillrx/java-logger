@@ -17,83 +17,18 @@ public abstract class LogWrapper implements LogChild {
     }
 
     @Override
-    public void verbose(String tag, String message) {
-        if (mSeverity < Severity.VERBOSE) {
+    public void log(int severity, String tag, String message, Throwable throwable) {
+        if (mSeverity < severity) {
             return;
         }
-        mWrapped.verbose(tag, message);
+        mWrapped.log(severity, tag, message, throwable);
     }
 
     @Override
-    public void verbose(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.VERBOSE) {
+    public void log(int severity, String tag, String message) {
+        if (mSeverity < severity) {
             return;
         }
-        mWrapped.verbose(tag, message, throwable);
+        mWrapped.log(severity, tag, message);
     }
-
-    @Override
-    public void debug(String tag, String message) {
-        if (mSeverity < Severity.DEBUG) {
-            return;
-        }
-        mWrapped.debug(tag, message);
-    }
-
-    @Override
-    public void debug(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.DEBUG) {
-            return;
-        }
-        mWrapped.debug(tag, message, throwable);
-    }
-
-    @Override
-    public void info(String tag, String message) {
-        if (mSeverity < Severity.INFO) {
-            return;
-        }
-        mWrapped.info(tag, message);
-    }
-
-    @Override
-    public void info(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.INFO) {
-            return;
-        }
-        mWrapped.info(tag, message, throwable);
-    }
-
-    @Override
-    public void warning(String tag, String message) {
-        if (mSeverity < Severity.WARN) {
-            return;
-        }
-        mWrapped.warning(tag, message);
-    }
-
-    @Override
-    public void warning(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.WARN) {
-            return;
-        }
-        mWrapped.warning(tag, message, throwable);
-    }
-
-    @Override
-    public void error(String tag, String message) {
-        if (mSeverity < Severity.ERROR) {
-            return;
-        }
-        mWrapped.error(tag, message);
-    }
-
-    @Override
-    public void error(String tag, String message, Throwable throwable) {
-        if (mSeverity < Severity.ERROR) {
-            return;
-        }
-        mWrapped.error(tag, message, throwable);
-    }
-
 }

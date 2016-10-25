@@ -7,77 +7,17 @@ package com.cyrillrx.logger;
 public interface LogChild {
 
     /**
-     * @param tag     Used to identify the source of a log message.
-     *                It usually identifies the class or activity where the log call occurs.
-     * @param message The message you would like to log.
-     */
-    void verbose(String tag, String message);
-
-    /**
      * @param tag       Used to identify the source of a log message.
      *                  It usually identifies the class or activity where the log call occurs.
      * @param message   The message you would like to log.
      * @param throwable An exception to log.
      */
-    void verbose(String tag, String message, Throwable throwable);
-
-    /**
-     * @param tag     Used to identify the source of a log message.
-     *                It usually identifies the class or activity where the log call occurs.
-     * @param message The message you would like to log.
-     */
-    void debug(String tag, String message);
+    void log(int severity, String tag, String message, Throwable throwable);
 
     /**
      * @param tag       Used to identify the source of a log message.
      *                  It usually identifies the class or activity where the log call occurs.
      * @param message   The message you would like to log.
-     * @param throwable An exception to log.
      */
-    void debug(String tag, String message, Throwable throwable);
-
-    /**
-     * @param tag     Used to identify the source of a log message.
-     *                It usually identifies the class or activity where the log call occurs.
-     * @param message The message you would like to log.
-     */
-    void info(String tag, String message);
-
-    /**
-     * @param tag       Used to identify the source of a log message.
-     *                  It usually identifies the class or activity where the log call occurs.
-     * @param message   The message you would like to log.
-     * @param throwable An exception to log.
-     */
-    void info(String tag, String message, Throwable throwable);
-
-    /**
-     * @param tag     Used to identify the source of a log message.
-     *                It usually identifies the class or activity where the log call occurs.
-     * @param message The message you would like to log.
-     */
-    void warning(String tag, String message);
-
-    /**
-     * @param tag       Used to identify the source of a log message.
-     *                  It usually identifies the class or activity where the log call occurs.
-     * @param message   The message you would like to log.
-     * @param throwable An exception to log.
-     */
-    void warning(String tag, String message, Throwable throwable);
-
-    /**
-     * @param tag     Used to identify the source of a log message.
-     *                It usually identifies the class or activity where the log call occurs.
-     * @param message The message you would like to log.
-     */
-    void error(String tag, String message);
-
-    /**
-     * @param tag       Used to identify the source of a log message.
-     *                  It usually identifies the class or activity where the log call occurs.
-     * @param message   The message you would like to log.
-     * @param throwable An exception to log.
-     */
-    void error(String tag, String message, Throwable throwable);
+    void log(int severity, String tag, String message);
 }

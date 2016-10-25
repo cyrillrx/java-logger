@@ -19,7 +19,7 @@ publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'logger'
-    version = '1.1.4'
+    version = '1.2.0'
     description = 'A modular logger component in java.'
     website = 'https://github.com/cyrillrx/java_logger'
 }

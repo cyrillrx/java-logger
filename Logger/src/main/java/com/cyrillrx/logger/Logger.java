@@ -15,14 +15,16 @@ public class Logger {
 
     private static final String ERROR_ALREADY_INITIALIZED = "initialize() has already been called.";
     private static final String ERROR_INITIALIZE_FIRST = "Call initialize() before using the Logger.";
-    private static Logger sInstance;
+    private static Logger instance;
 
-    private final Set<LogChild> mLoggers;
+    private final Set<LogChild> loggers;
+
+    private ExceptionCatcher catcher;
 
     /**
      */
     private Logger() {
-        mLoggers = new HashSet<>();
+        loggers = new HashSet<>();
     }
 
     /**
@@ -31,99 +33,98 @@ public class Logger {
     public static void initialize() {
         checkMultiInitialization();
 
-        sInstance = new Logger();
+        instance = new Logger();
+    }
+
+    public static synchronized ExceptionCatcher setCatcher(ExceptionCatcher catcher) {
+        checkInitialized();
+
+        return instance.catcher = catcher;
     }
 
     public static synchronized void addChild(LogChild child) {
         checkInitialized();
 
-        sInstance.mLoggers.add(child);
+        instance.loggers.add(child);
     }
 
     public static synchronized void removeChild(LogChild child) {
         checkInitialized();
 
-        sInstance.mLoggers.remove(child);
+        instance.loggers.remove(child);
     }
 
-    public static synchronized void verbose(String tag, String message) {
+
+    public static synchronized void log(int severity, String tag, String message, Throwable throwable) {
         checkInitialized();
 
-        for (LogChild log : sInstance.mLoggers) {
-            log.verbose(tag, message);
+        for (LogChild logger : instance.loggers) {
+            try {
+                logger.log(severity, tag, message, throwable);
+            } catch (Throwable t) {
+                try {
+                    instance.catcher.catchException(t);
+                } catch (Exception ignored) {
+                    // Prevent the catcher from throwing an exception
+                }
+            }
+        }
+    }
+
+    public static synchronized void log(int severity, String tag, String message) {
+        checkInitialized();
+
+        for (LogChild logger : instance.loggers) {
+            try {
+                logger.log(severity, tag, message);
+            } catch (Throwable t) {
+                try {
+                    instance.catcher.catchException(t);
+                } catch (Exception ignored) {
+                    // Prevent the catcher from throwing an exception
+                }
+            }
         }
     }
 
     public static synchronized void verbose(String tag, String message, Throwable throwable) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.verbose(tag, message, throwable);
-        }
+        log(Severity.VERBOSE, tag, message, throwable);
     }
 
-    public static synchronized void debug(String tag, String message) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.debug(tag, message);
-        }
+    public static synchronized void verbose(String tag, String message) {
+        log(Severity.VERBOSE, tag, message);
     }
 
     public static synchronized void debug(String tag, String message, Throwable throwable) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.debug(tag, message, throwable);
-        }
+        log(Severity.DEBUG, tag, message, throwable);
     }
 
-    public static synchronized void info(String tag, String message) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.info(tag, message);
-        }
+    public static synchronized void debug(String tag, String message) {
+        log(Severity.DEBUG, tag, message);
     }
 
     public static synchronized void info(String tag, String message, Throwable throwable) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.info(tag, message, throwable);
-        }
+        log(Severity.INFO, tag, message, throwable);
     }
 
-    public static synchronized void warning(String tag, String message) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.warning(tag, message);
-        }
+    public static synchronized void info(String tag, String message) {
+        log(Severity.INFO, tag, message);
     }
 
     public static synchronized void warning(String tag, String message, Throwable throwable) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.warning(tag, message, throwable);
-        }
+        log(Severity.WARN, tag, message, throwable);
     }
 
-    public static synchronized void error(String tag, String message) {
-        checkInitialized();
-
-        for (LogChild log : sInstance.mLoggers) {
-            log.error(tag, message);
-        }
+    public static synchronized void warning(String tag, String message) {
+        log(Severity.WARN, tag, message);
     }
 
     public static synchronized void error(String tag, String message, Throwable throwable) {
-        checkInitialized();
+        log(Severity.ERROR, tag, message, throwable);
+    }
 
-        for (LogChild log : sInstance.mLoggers) {
-            log.error(tag, message, throwable);
-        }
+    public static synchronized void error(String tag, String message) {
+        log(Severity.ERROR, tag, message);
     }
 
     /**
@@ -131,7 +132,7 @@ public class Logger {
      * Throws if not.
      */
     private static void checkInitialized() {
-        if (sInstance == null) {
+        if (instance == null) {
             throw new IllegalStateException(ERROR_INITIALIZE_FIRST);
         }
     }
@@ -141,8 +142,12 @@ public class Logger {
      * Throws if the component has already been initialized.
      */
     private static void checkMultiInitialization() {
-        if (sInstance != null) {
+        if (instance != null) {
             throw new IllegalStateException(ERROR_ALREADY_INITIALIZED);
         }
+    }
+
+    public interface ExceptionCatcher {
+        void catchException(Throwable t);
     }
 }

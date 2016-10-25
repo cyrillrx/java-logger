@@ -2,6 +2,7 @@ package com.cyrillrx.logger.extension;
 
 import com.cyrillrx.logger.LogChild;
 import com.cyrillrx.logger.LogWrapper;
+import com.cyrillrx.logger.Severity;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -30,8 +31,8 @@ public class SystemOutLog extends LogWrapper {
          * @param message The message you would like to log.
          */
         @Override
-        public void verbose(String tag, String message) {
-            println("%s - Verbose - %s - %s", getCurrentDateTime(), tag, message);
+        public void log(int severity, String tag, String message) {
+            println("%s - %s - %s - %s", getCurrentDateTime(), Severity.getLabel(severity), tag, message);
         }
 
         /**
@@ -40,145 +41,22 @@ public class SystemOutLog extends LogWrapper {
          * @param throwable An exception to log.
          */
         @Override
-        public void verbose(String tag, String message, Throwable throwable) {
+        public void log(int severity, String tag, String message, Throwable throwable) {
 
             if (throwable == null) {
-                verbose(tag, message);
+                log(severity, tag, message);
                 return;
             }
 
             final String stackTrace = getStackTrace(throwable);
             if (stackTrace == null) {
-                verbose(tag, message);
+                log(severity, tag, message);
                 return;
             }
 
-            println("Verbose - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
+            println("%s - %s - %s - %s\n%s", getCurrentDateTime(), Severity.getLabel(severity), tag, message, stackTrace);
         }
 
-        /**
-         * @param tag     Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message The message you would like to log.
-         */
-        @Override
-        public void debug(String tag, String message) {
-            println("%s - Debug   - %s - %s", getCurrentDateTime(), tag, message);
-        }
-
-        /**
-         * @param tag       Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message   The message you would like to log.
-         * @param throwable An exception to log.
-         */
-        @Override
-        public void debug(String tag, String message, Throwable throwable) {
-
-            if (throwable == null) {
-                debug(tag, message);
-                return;
-            }
-
-            final String stackTrace = getStackTrace(throwable);
-            if (stackTrace == null) {
-                debug(tag, message);
-                return;
-            }
-
-            println("%s - Debug   - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
-        }
-
-        /**
-         * @param tag     Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message The message you would like to log.
-         */
-        @Override
-        public void info(String tag, String message) {
-            println("%s - Info    - %s - %s", getCurrentDateTime(), tag, message);
-        }
-
-        /**
-         * @param tag       Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message   The message you would like to log.
-         * @param throwable An exception to log.
-         */
-        @Override
-        public void info(String tag, String message, Throwable throwable) {
-
-            if (throwable == null) {
-                info(tag, message);
-                return;
-            }
-
-            final String stackTrace = getStackTrace(throwable);
-            if (stackTrace == null) {
-                info(tag, message);
-                return;
-            }
-
-            println("%s - Info    - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
-        }
-
-        /**
-         * @param tag     Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message The message you would like to log.
-         */
-        @Override
-        public void warning(String tag, String message) {
-            println("%s - Warning - %s - %s", getCurrentDateTime(), tag, message);
-        }
-
-        /**
-         * @param tag       Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message   The message you would like to log.
-         * @param throwable An exception to log.
-         */
-        @Override
-        public void warning(String tag, String message, Throwable throwable) {
-
-            if (throwable == null) {
-                warning(tag, message);
-                return;
-            }
-
-            final String stackTrace = getStackTrace(throwable);
-            if (stackTrace == null) {
-                warning(tag, message);
-                return;
-            }
-
-            println("%s - Warning - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
-        }
-
-        /**
-         * @param tag     Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message The message you would like to log.
-         */
-        @Override
-        public void error(String tag, String message) {
-            println("%s - Error   - %s - %s", getCurrentDateTime(), tag, message);
-        }
-
-        /**
-         * @param tag       Used to identify the source of a log message. It usually identifies the class or activity where the log call occurs.
-         * @param message   The message you would like to log.
-         * @param throwable An exception to log.
-         */
-        @Override
-        public void error(String tag, String message, Throwable throwable) {
-
-            if (throwable == null) {
-                error(tag, message);
-                return;
-            }
-
-            final String stackTrace = getStackTrace(throwable);
-            if (stackTrace == null) {
-                error(tag, message);
-                return;
-            }
-
-            println("%s - Error   - %s - %s\n%s", getCurrentDateTime(), tag, message, stackTrace);
-        }
     }
 
     /**
