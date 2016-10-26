@@ -1,6 +1,8 @@
 package com.cyrillrx.tracker.context;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,7 +18,12 @@ public class TrackerContext {
 
     private Set<UserChangedListener> listeners;
 
-    public TrackerContext() { listeners = new HashSet<>(); }
+    private Map<String, String> customAttributes;
+
+    public TrackerContext() {
+        listeners = new HashSet<>();
+        customAttributes = new HashMap<>();
+    }
 
     public App getApp() { return app; }
 
@@ -53,6 +60,16 @@ public class TrackerContext {
      * Adds a listener that will be notified when {@link User} is updated.
      */
     public void addListener(UserChangedListener listener) { listeners.add(listener); }
+
+    public Map<String, String> getCustomAttributes() { return customAttributes; }
+
+    public void putCustomAttribute(String key, String value) {
+        customAttributes.put(key, value);
+    }
+
+    public void putCustomAttributes(Map<String, String> values) {
+        customAttributes.putAll(values);
+    }
 
     //
     // Inner classes
@@ -110,6 +127,7 @@ public class TrackerContext {
         private String model;
         private String serial;
         private String display;
+        private Connectivity connectivity;
 
         public String getOs() { return os; }
 
@@ -159,10 +177,16 @@ public class TrackerContext {
             this.display = display;
             return this;
         }
+
+        public Connectivity getConnectivity() { return connectivity; }
+
+        public Device setConnectivity(Connectivity connectivity) {
+            this.connectivity = connectivity;
+            return this;
+        }
     }
 
     public interface UserChangedListener {
-
         void onUserChanged(TrackerContext.User user);
     }
 

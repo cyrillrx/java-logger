@@ -1,5 +1,9 @@
 LRX Tracker Release Notes
 
+2016-10-25 - v0.6.4
+- Added customAttributes to TrackerContext
+- Added Connectivity to TrackerContext.Device
+
 2016-09-16 - v0.6.3
 - Added an exception catcher to prevent trackers from crashing the host application
 

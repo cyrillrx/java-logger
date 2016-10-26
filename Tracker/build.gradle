@@ -25,7 +25,7 @@ publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'tracker'
-    version = '0.6.3'
+    version = '0.6.4'
     description = 'A modular tracker component.'
     website = 'https://github.com/cyrillrx/java_logger'
 }
