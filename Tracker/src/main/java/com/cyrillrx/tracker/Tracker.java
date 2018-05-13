@@ -25,7 +25,7 @@ public class Tracker {
 
     private ExceptionCatcher catcher;
 
-    private Tracker() {
+    protected Tracker() {
         trackers = new HashSet<>();
         context = new TrackerContext();
     }

@@ -1,7 +1,7 @@
 package com.cyrillrx.logger.extension;
 
+import com.cyrillrx.logger.L;
 import com.cyrillrx.logger.LogChild;
-import com.cyrillrx.logger.Logger;
 import com.cyrillrx.logger.Severity;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class SystemOutLogTest {
     @BeforeClass
     public static void initLogger() {
 
-        Logger.initialize();
+        L.initialize();
     }
 
     @Test
@@ -47,14 +47,14 @@ public class SystemOutLogTest {
 
     public void testLogger(LogChild child) {
 
-        Logger.addChild(child);
+        L.addChild(child);
 
-        Logger.verbose(TAG, "Test verbose");
-        Logger.debug(TAG, "Test debug");
-        Logger.info(TAG, "Test info");
-        Logger.warning(TAG, "Test warning");
-        Logger.error(TAG, "Test error");
+        L.verbose(TAG, "Test verbose");
+        L.debug(TAG, "Test debug");
+        L.info(TAG, "Test info");
+        L.warning(TAG, "Test warning");
+        L.error(TAG, "Test error");
 
-        Logger.removeChild(child);
+        L.removeChild(child);
     }
 }

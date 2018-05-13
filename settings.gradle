@@ -1,2 +1,2 @@
-include ':Logger'
-include ':Tracker'
+include ':logger'
+include ':tracker'

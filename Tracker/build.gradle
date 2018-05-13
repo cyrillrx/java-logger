@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.cyrillrx:logger:1.1.4'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.cyrillrx:logger:1.5.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 test {
@@ -25,7 +25,7 @@ publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'tracker'
-    version = '0.6.4'
+    version = '0.7.0'
     description = 'A modular tracker component.'
     website = 'https://github.com/cyrillrx/java_logger'
 }

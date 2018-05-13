@@ -21,11 +21,7 @@ public class Logger {
 
     private ExceptionCatcher catcher;
 
-    /**
-     */
-    private Logger() {
-        loggers = new HashSet<>();
-    }
+    protected Logger() { loggers = new HashSet<>(); }
 
     /**
      * Initializes the Logger.
@@ -53,7 +49,6 @@ public class Logger {
 
         instance.loggers.remove(child);
     }
-
 
     public static synchronized void log(int severity, String tag, String message, Throwable throwable) {
         checkInitialized();

@@ -8,27 +8,27 @@ package com.cyrillrx.logger;
  */
 public abstract class LogWrapper implements LogChild {
 
-    private final int mSeverity;
-    private final LogChild mWrapped;
+    private final int severity;
+    private final LogChild wrapped;
 
     public LogWrapper(int severity, LogChild logger) {
-        mSeverity = severity;
-        mWrapped = logger;
+        this.severity = severity;
+        wrapped = logger;
     }
 
     @Override
     public void log(int severity, String tag, String message, Throwable throwable) {
-        if (mSeverity < severity) {
+        if (this.severity < severity) {
             return;
         }
-        mWrapped.log(severity, tag, message, throwable);
+        wrapped.log(severity, tag, message, throwable);
     }
 
     @Override
     public void log(int severity, String tag, String message) {
-        if (mSeverity < severity) {
+        if (this.severity < severity) {
             return;
         }
-        mWrapped.log(severity, tag, message);
+        wrapped.log(severity, tag, message);
     }
 }
