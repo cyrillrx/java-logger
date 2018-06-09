@@ -1,5 +1,10 @@
 LRX Logger Release Notes
 
+2018-05-13 - v1.5.0
+- Created L class (Logger alias)
+- Bumped gradle wrapper to 4.4
+- Updated dependencies
+
 2016-10-26 - v1.2.0
 - Refactored LogChild implementation and related classes
 
