@@ -34,25 +34,13 @@ public abstract class EventBuilder<Event extends TrackEvent> {
         return this;
     }
 
-    public EventBuilder putCustomAttribute(String key, String value) {
+    public EventBuilder putCustomAttribute(String key, Object value) {
         event.customAttributes.put(key, value);
         return this;
     }
 
-    public EventBuilder putCustomAttributes(Map<String, String> values) {
+    public EventBuilder putCustomAttributes(Map<String, Object> values) {
         event.customAttributes.putAll(values);
-        return this;
-    }
-
-    @Deprecated
-    public EventBuilder setId(String id) {
-        event.id = id;
-        return this;
-    }
-
-    @Deprecated
-    public EventBuilder setType(String type) {
-        event.type = type;
         return this;
     }
 }

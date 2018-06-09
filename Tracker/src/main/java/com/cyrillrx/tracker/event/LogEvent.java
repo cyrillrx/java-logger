@@ -54,22 +54,14 @@ public class LogEvent extends TrackEvent {
         public Builder setSource(String source) { return (Builder) super.setSource(source); }
 
         @Override
-        public Builder putCustomAttribute(String key, String value) {
+        public Builder putCustomAttribute(String key, Object value) {
             return (Builder) super.putCustomAttribute(key, value);
         }
 
         @Override
-        public Builder putCustomAttributes(Map<String, String> values) {
+        public Builder putCustomAttributes(Map<String, Object> values) {
             return (Builder) super.putCustomAttributes(values);
         }
-
-        @Deprecated
-        @Override
-        public Builder setId(String id) { return (Builder) super.setId(id); }
-
-        @Deprecated
-        @Override
-        public Builder setType(String type) { return (Builder) super.setType(type); }
 
         public Builder setSeverity(int severity) {
             event.severity = severity;

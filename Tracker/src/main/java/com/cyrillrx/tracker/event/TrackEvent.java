@@ -20,10 +20,7 @@ public class TrackEvent {
     /** Source of the event (class name, or ui screen) */
     protected String source;
 
-    protected String id;
-    protected String type;
-
-    protected Map<String, String> customAttributes;
+    protected Map<String, Object> customAttributes;
 
     protected TrackEvent() {
         createdAt = System.currentTimeMillis();
@@ -43,13 +40,10 @@ public class TrackEvent {
 
     public String getSource() { return source; }
 
-    @Deprecated
-    public String getId() { return id; }
+    public Map<String, Object> getCustomAttributes() { return customAttributes; }
 
-    @Deprecated
-    public String getType() { return type; }
-
-    public Map<String, String> getCustomAttributes() { return customAttributes; }
+    @SuppressWarnings("unchecked")
+    public <T> T getCustomAttribute(String key) { return (T) customAttributes.get(key); }
 
     public static class Builder extends EventBuilder<TrackEvent> {
 
@@ -78,21 +72,13 @@ public class TrackEvent {
         public Builder setSource(String source) { return (Builder) super.setSource(source); }
 
         @Override
-        public Builder putCustomAttribute(String key, String value) {
+        public Builder putCustomAttribute(String key, Object value) {
             return (Builder) super.putCustomAttribute(key, value);
         }
 
         @Override
-        public Builder putCustomAttributes(Map<String, String> values) {
+        public Builder putCustomAttributes(Map<String, Object> values) {
             return (Builder) super.putCustomAttributes(values);
         }
-
-        @Deprecated
-        @Override
-        public Builder setId(String id) { return (Builder) super.setId(id); }
-
-        @Deprecated
-        @Override
-        public Builder setType(String type) { return (Builder) super.setType(type); }
     }
 }

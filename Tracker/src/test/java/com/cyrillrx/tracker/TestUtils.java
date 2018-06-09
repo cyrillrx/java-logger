@@ -3,6 +3,7 @@ package com.cyrillrx.tracker;
 import com.cyrillrx.tracker.context.TrackerContext;
 import com.cyrillrx.tracker.event.TrackEvent;
 import com.cyrillrx.tracker.utils.Utils;
+
 import org.junit.Assert;
 
 import java.util.ArrayList;
@@ -19,8 +20,6 @@ public class TestUtils {
     public static final String EVENT_CATEGORY = "ScreenView";
     public static final String EVENT_NAME = "Home screen view";
     public static final String EVENT_SOURCE = "AppClassOrScreen";
-    public static final String EVENT_ID = "home";
-    public static final String EVENT_TYPE = "screen";
 
     public static final String KEY_1 = "key_custom_1";
     public static final String KEY_2 = "key_custom_2";
@@ -63,11 +62,8 @@ public class TestUtils {
         Assert.assertEquals("Event category is inconsistent.", TestUtils.EVENT_CATEGORY, event.getCategory());
         Assert.assertEquals("Event name is inconsistent.", TestUtils.EVENT_NAME, event.getName());
         Assert.assertEquals("Event source is inconsistent.", TestUtils.EVENT_SOURCE, event.getSource());
-        Assert.assertEquals("Event id is inconsistent.", TestUtils.EVENT_ID, event.getId());
-        Assert.assertEquals("Event type is inconsistent.", TestUtils.EVENT_TYPE, event.getType());
 
-        final Map<String, String> customAttributes = event.getCustomAttributes();
-        Assert.assertEquals("Custom attributes count is inconsistent.", 2, customAttributes.size());
+        final Map<String, Object> customAttributes = event.getCustomAttributes();
         Assert.assertEquals("Custom attr 1 is inconsistent.", VALUE_1, customAttributes.get(TestUtils.KEY_1));
         Assert.assertEquals("Custom attr 2 is inconsistent.", VALUE_2, customAttributes.get(TestUtils.KEY_2));
     }
