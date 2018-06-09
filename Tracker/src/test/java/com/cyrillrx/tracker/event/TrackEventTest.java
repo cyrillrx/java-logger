@@ -48,7 +48,7 @@ public class TrackEventTest {
         Assert.assertEquals("Attribute is inconsistent.", "toto", string);
 
         final float floatValue = event.getCustomAttribute("float");
-        Assert.assertEquals("Attribute is inconsistent.", Float.MAX_VALUE, floatValue);
+        Assert.assertEquals("Attribute is inconsistent.", Float.MAX_VALUE, floatValue, 0.1f);
 
         final long longValue = event.getCustomAttribute("long");
         Assert.assertEquals("Event rating is inconsistent.", Long.MAX_VALUE, longValue);
