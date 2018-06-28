@@ -8,6 +8,7 @@ import java.util.Map;
  * @author Cyril Leroux
  *         Created on 25/04/2016.
  */
+@SuppressWarnings("unused")
 public class LogEvent extends TrackEvent {
 
     protected int severity;
@@ -59,7 +60,7 @@ public class LogEvent extends TrackEvent {
         }
 
         @Override
-        public Builder putCustomAttributes(Map<String, Object> values) {
+        public <T> Builder putCustomAttributes(Map<String, T> values) {
             return (Builder) super.putCustomAttributes(values);
         }
 

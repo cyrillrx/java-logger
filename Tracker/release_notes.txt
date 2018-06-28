@@ -1,5 +1,8 @@
 LRX Tracker Release Notes
 
+2018-06-28 - v0.8.1
+- Made EventBuilder.putCustomAttributes accept any Map<String, T>
+
 2018-06-09 - v0.8.0
 - Bumped Tracker to 0.8.0
 - Removed useless track types (should be defined by the caller)

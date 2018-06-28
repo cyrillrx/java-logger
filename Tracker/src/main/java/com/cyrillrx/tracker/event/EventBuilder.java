@@ -39,7 +39,7 @@ public abstract class EventBuilder<Event extends TrackEvent> {
         return this;
     }
 
-    public EventBuilder putCustomAttributes(Map<String, Object> values) {
+    public <T> EventBuilder putCustomAttributes(Map<String, T> values) {
         event.customAttributes.putAll(values);
         return this;
     }

@@ -77,7 +77,7 @@ public class TrackEvent {
         }
 
         @Override
-        public Builder putCustomAttributes(Map<String, Object> values) {
+        public <T> Builder putCustomAttributes(Map<String, T> values) {
             return (Builder) super.putCustomAttributes(values);
         }
     }

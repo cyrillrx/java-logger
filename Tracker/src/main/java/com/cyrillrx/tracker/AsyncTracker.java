@@ -59,9 +59,7 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
         }
     }
 
-    protected void submitToService(ExecutorService service) {
-        service.submit(createConsumer());
-    }
+    protected void submitToService(ExecutorService service) { service.submit(createConsumer()); }
 
     protected abstract EventConsumer<EventQueue> createConsumer();
 }
