@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class wraps instances of the {@link LogChild} interface.<br />
+ * This class wraps instances of the {@link LogChild} interface.
  * It allows to customize the logging conditions.
  *
  * @author Cyril Leroux

@@ -1,15 +1,15 @@
 apply plugin: 'java'
 apply plugin: 'bintray-release'
 
-targetCompatibility = '1.7'
-sourceCompatibility = '1.7'
+targetCompatibility = '1.8'
+sourceCompatibility = '1.8'
 
 repositories {
     maven { url 'http://dl.bintray.com/cyrillrx/maven' }
 }
 
 dependencies {
-    implementation 'com.cyrillrx:logger:1.5.0'
+    implementation "com.cyrillrx:logger:$loggerVersion"
     testImplementation 'junit:junit:4.12'
 }
 
@@ -25,7 +25,7 @@ publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'
     artifactId = 'tracker'
-    publishVersion = '0.8.1'
+    publishVersion = project.ext.trackerVersion
     desc = 'A modular tracker component.'
     website = 'https://github.com/cyrillrx/java_logger'
 }
