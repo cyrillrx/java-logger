@@ -63,13 +63,9 @@ public class TrackerContext {
 
     public Map<String, String> getCustomAttributes() { return customAttributes; }
 
-    public void putCustomAttribute(String key, String value) {
-        customAttributes.put(key, value);
-    }
+    public void putCustomAttribute(String key, String value) { customAttributes.put(key, value); }
 
-    public void putCustomAttributes(Map<String, String> values) {
-        customAttributes.putAll(values);
-    }
+    public void putCustomAttributes(Map<String, String> values) { customAttributes.putAll(values); }
 
     //
     // Inner classes

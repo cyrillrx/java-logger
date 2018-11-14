@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class wraps instances of the {@link TrackerChild} interface.<br />
+ * This class wraps instances of the {@link TrackerChild} interface.
  * It allows to customize the tracking conditions.
  *
  * @author Cyril Leroux
