@@ -15,6 +15,7 @@ public class Logger {
 
     private static final String ERROR_ALREADY_INITIALIZED = "initialize() has already been called.";
     private static final String ERROR_INITIALIZE_FIRST = "Call initialize() before using the Logger.";
+
     private static Logger instance;
 
     private final Set<LogChild> loggers;
@@ -23,13 +24,14 @@ public class Logger {
 
     protected Logger() { loggers = new HashSet<>(); }
 
-    /**
-     * Initializes the Logger.
-     */
     public static void initialize() {
         checkMultiInitialization();
 
         instance = new Logger();
+    }
+
+    public static void release() {
+        instance = null;
     }
 
     public static synchronized ExceptionCatcher setCatcher(ExceptionCatcher catcher) {
