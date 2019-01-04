@@ -35,9 +35,7 @@ public class StreamingTracker extends AsyncTracker<BlockingQueue<TrackEvent>> {
     }
 
     @Override
-    protected StreamingConsumer createConsumer() {
-        return new StreamingConsumer(nestedTracker, queue, retryQueue);
-    }
+    protected StreamingConsumer createConsumer() { return new StreamingConsumer(nestedTracker, queue, retryQueue); }
 
     private static BlockingQueue<TrackEvent> createQueue(int capacity) {
         return new ArrayBlockingQueue<>(capacity, true);

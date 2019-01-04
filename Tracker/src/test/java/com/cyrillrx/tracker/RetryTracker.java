@@ -8,21 +8,20 @@ import com.cyrillrx.tracker.event.TrackEvent;
  * @author Cyril Leroux
  *         Created on 26/04/2016.
  */
-class RetryTracker extends BasicTracker {
+class RetryTracker extends DummyTrackerTracker {
 
     protected boolean fail;
 
     public RetryTracker() { fail = true; }
 
     @Override
-    public void track(TrackEvent event) {
-
+    protected void doTrack(TrackEvent event) {
         if (fail) {
             fail = false;
             throw new RuntimeException("Failed tracking the event on purpose !");
 
         } else {
-            super.track(event);
+            super.doTrack(event);
         }
     }
 }

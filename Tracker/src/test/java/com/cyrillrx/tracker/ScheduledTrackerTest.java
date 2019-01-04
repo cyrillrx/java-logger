@@ -23,7 +23,7 @@ public class ScheduledTrackerTest {
 
         System.out.println("Test started");
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final ScheduledTracker tracker = new ScheduledTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setInterval(INTERVAL, UNIT)
@@ -46,7 +46,7 @@ public class ScheduledTrackerTest {
         // Assert that the event was sent
         Assert.assertEquals("Should be 1", 1, nestedTracker.getEventCount());
 
-        final List<TrackEvent> trackedEvents = nestedTracker.getEvents();
+        final List<TrackEvent> trackedEvents = nestedTracker.events;
         for (TrackEvent event : trackedEvents) {
             Assert.assertTrue("Category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY.equals(event.getCategory()));
         }
@@ -55,7 +55,7 @@ public class ScheduledTrackerTest {
     @Test
     public void testOneByOne() {
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final ScheduledTracker tracker = new ScheduledTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setInterval(INTERVAL, UNIT)
@@ -82,7 +82,7 @@ public class ScheduledTrackerTest {
     @Test
     public void testBatch() {
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final ScheduledTracker tracker = new ScheduledTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setInterval(INTERVAL, UNIT)

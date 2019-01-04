@@ -34,7 +34,7 @@ public class StreamingTrackerTest {
 
         Logger.info(TAG, "Started testConsistency");
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final StreamingTracker tracker = new StreamingTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setCapacity(10)
@@ -48,9 +48,9 @@ public class StreamingTrackerTest {
 
         Assert.assertEquals("Should be 1", 1, nestedTracker.getEventCount());
 
-        final List<TrackEvent> trackedEvents = nestedTracker.getEvents();
+        final List<TrackEvent> trackedEvents = nestedTracker.events;
         for (TrackEvent event : trackedEvents) {
-            Assert.assertTrue("Should contain category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY.equals(event.getCategory()));
+            Assert.assertEquals("Should contain category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY, event.getCategory());
         }
     }
 
@@ -82,7 +82,7 @@ public class StreamingTrackerTest {
     @Test
     public void testOneByOne() {
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final StreamingTracker tracker = new StreamingTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setCapacity(100)
@@ -107,7 +107,7 @@ public class StreamingTrackerTest {
 
         System.out.println("Test started");
 
-        final BasicTracker nestedTracker = new BasicTracker();
+        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
         final StreamingTracker tracker = new StreamingTracker.Builder()
                 .setNestedTracker(nestedTracker)
                 .setCapacity(100)

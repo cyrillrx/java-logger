@@ -62,5 +62,7 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
         }
     }
 
-    private synchronized void doConsume(List<TrackEvent> events) { tracker.track(events); }
+    private synchronized void doConsume(List<TrackEvent> events) {
+        tracker.track(events);
+    }
 }

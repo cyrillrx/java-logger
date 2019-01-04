@@ -8,9 +8,21 @@ import java.util.Collection;
  * @author Cyril Leroux
  *         Created on 11/11/2015.
  */
-public interface TrackerChild {
+public abstract class TrackerChild {
 
-    void track(TrackEvent event);
+    public final void track(TrackEvent event) {
+        if (shouldTrack(event)) {
+            doTrack(event);
+        }
+    }
 
-    void track(Collection<TrackEvent> events);
+    public void track(Collection<TrackEvent> events) {
+        for (TrackEvent event : events) {
+            track(event);
+        }
+    }
+
+    protected boolean shouldTrack(TrackEvent event) { return true; }
+
+    protected abstract void doTrack(TrackEvent event);
 }

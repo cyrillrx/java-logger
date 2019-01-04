@@ -10,9 +10,7 @@ public abstract class SeverityLogChild extends LogChild {
 
     private final int severity;
 
-    public SeverityLogChild(int severity) {
-        this.severity = severity;
-    }
+    public SeverityLogChild(int severity) { this.severity = severity; }
 
     @Override
     protected boolean shouldLog(int severity, String tag, String message, Throwable throwable) {
