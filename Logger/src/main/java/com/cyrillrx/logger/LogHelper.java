@@ -5,22 +5,41 @@ import java.io.StringWriter;
 
 public class LogHelper {
 
-    /** How deep to log stack traces by default. */
-    private static int DEFAULT_STACK_DEPTH = 7;
+    private static final String LOGGER_CLASS_NAME = Logger.class.getName();
 
-    public static String getDetailedLog(String msg) {
-        return getDetailedLog(msg, DEFAULT_STACK_DEPTH);
-    }
+    public static String getDetailedLog(String message) {
 
-    public static String getDetailedLog(String msg, int depth) {
         final Thread currentThread = Thread.currentThread();
-        final StackTraceElement trace = currentThread.getStackTrace()[depth];
-        final String logPrefix = String.format("[thread:%s][method:%s] ", currentThread.getName(), linkableMethod(trace));
-        return logPrefix + msg;
+        final StackTraceElement[] stackElements = currentThread.getStackTrace();
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append(message);
+
+        sb.append("\n    Source: ");
+
+        boolean lastWasLoggerClass = false;
+
+        StackTraceElement trace = null;
+        for (StackTraceElement stackElement : stackElements) {
+            trace = stackElement;
+
+            final String className = trace.getClassName();
+            final boolean isLoggerClass = className.startsWith(LOGGER_CLASS_NAME);
+            if (lastWasLoggerClass && !isLoggerClass) {
+                break;
+            }
+            lastWasLoggerClass = isLoggerClass;
+        }
+
+        sb.append(String.format("%s (thread: %s)", linkableMethod(trace), currentThread.getName()));
+        return sb.toString();
     }
 
     private static String linkableMethod(StackTraceElement trace) {
-        return String.format("%s(%s:%d)", trace.getMethodName(), trace.getFileName(), trace.getLineNumber());
+        if (trace == null) {
+            return "trace is null";
+        }
+        return String.format("%s.%s(%s:%d)", trace.getClassName(), trace.getMethodName(), trace.getFileName(), trace.getLineNumber());
     }
 
     /** @return The Stack trace as a String. */

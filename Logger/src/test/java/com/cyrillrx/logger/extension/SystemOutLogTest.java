@@ -17,29 +17,40 @@ public class SystemOutLogTest {
     private static final String TAG = SystemOutLogTest.class.getSimpleName();
 
     @BeforeClass
-    public static void initLogger() {
-        L.initialize();
-    }
+    public static void initLogger() { L.initialize(); }
 
     @AfterClass
-    public static void releaseLogger() {
-        L.release();
+    public static void releaseLogger() { L.release(); }
+
+    @Test
+    public void testLoggerVerbose() {
+        testLogger(new SystemOutLog(Severity.VERBOSE), "Testing verbose");
+        testLogger(new SystemOutLog(Severity.VERBOSE, true), "Testing verbose with source");
     }
 
     @Test
-    public void testLoggerVerbose() { testLogger(new SystemOutLog(Severity.VERBOSE), "Testing verbose"); }
+    public void testLoggerDebug() {
+        testLogger(new SystemOutLog(Severity.DEBUG), "Testing debug");
+        testLogger(new SystemOutLog(Severity.DEBUG, true), "Testing debug with source");
+    }
 
     @Test
-    public void testLoggerDebug() { testLogger(new SystemOutLog(Severity.DEBUG), "Testing debug"); }
+    public void testLoggerInfo() {
+        testLogger(new SystemOutLog(Severity.INFO), "Testing info");
+        testLogger(new SystemOutLog(Severity.INFO, true), "Testing info with source");
+    }
 
     @Test
-    public void testLoggerInfo() { testLogger(new SystemOutLog(Severity.INFO), "Testing info"); }
+    public void testLoggerWarning() {
+        testLogger(new SystemOutLog(Severity.WARN), "Testing warning");
+        testLogger(new SystemOutLog(Severity.WARN, true), "Testing warning with source");
+    }
 
     @Test
-    public void testLoggerWarning() { testLogger(new SystemOutLog(Severity.WARN), "Testing warning"); }
-
-    @Test
-    public void testLoggerError() { testLogger(new SystemOutLog(Severity.ERROR), "Testing error"); }
+    public void testLoggerError() {
+        testLogger(new SystemOutLog(Severity.ERROR), "Testing error");
+        testLogger(new SystemOutLog(Severity.ERROR, true), "Testing error with source");
+    }
 
     private static void testLogger(LogChild child, String message) {
 

@@ -30,9 +30,7 @@ public class Logger {
         instance = new Logger();
     }
 
-    public static void release() {
-        instance = null;
-    }
+    public static void release() { instance = null; }
 
     public static synchronized ExceptionCatcher setCatcher(ExceptionCatcher catcher) {
         checkInitialized();
@@ -73,7 +71,7 @@ public class Logger {
 
         for (LogChild logger : instance.loggers) {
             try {
-                logger.log(severity, tag, message);
+                logger.log(severity, tag, message, null);
             } catch (Throwable t) {
                 try {
                     instance.catcher.catchException(t);
@@ -89,7 +87,7 @@ public class Logger {
     }
 
     public static synchronized void verbose(String tag, String message) {
-        log(Severity.VERBOSE, tag, message);
+        log(Severity.VERBOSE, tag, message, null);
     }
 
     public static synchronized void debug(String tag, String message, Throwable throwable) {
@@ -97,7 +95,7 @@ public class Logger {
     }
 
     public static synchronized void debug(String tag, String message) {
-        log(Severity.DEBUG, tag, message);
+        log(Severity.DEBUG, tag, message, null);
     }
 
     public static synchronized void info(String tag, String message, Throwable throwable) {
@@ -105,7 +103,7 @@ public class Logger {
     }
 
     public static synchronized void info(String tag, String message) {
-        log(Severity.INFO, tag, message);
+        log(Severity.INFO, tag, message, null);
     }
 
     public static synchronized void warning(String tag, String message, Throwable throwable) {
@@ -113,7 +111,7 @@ public class Logger {
     }
 
     public static synchronized void warning(String tag, String message) {
-        log(Severity.WARN, tag, message);
+        log(Severity.WARN, tag, message, null);
     }
 
     public static synchronized void error(String tag, String message, Throwable throwable) {
@@ -121,7 +119,7 @@ public class Logger {
     }
 
     public static synchronized void error(String tag, String message) {
-        log(Severity.ERROR, tag, message);
+        log(Severity.ERROR, tag, message, null);
     }
 
     /**

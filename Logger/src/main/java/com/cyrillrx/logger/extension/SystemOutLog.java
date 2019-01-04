@@ -16,12 +16,21 @@ import java.time.format.DateTimeFormatter;
  */
 public class SystemOutLog extends SeverityLogChild {
 
-    public SystemOutLog(int severity) {
+    private final boolean detailedLogs;
+
+    public SystemOutLog(int severity, boolean detailedLogs) {
         super(severity);
+        this.detailedLogs = detailedLogs;
+    }
+
+    public SystemOutLog(int severity) {
+        this(severity, false);
     }
 
     @Override
-    protected void doLog(int severity, String tag, String message, Throwable throwable) {
+    protected void doLog(int severity, String tag, String rawMessage, Throwable throwable) {
+
+        final String message = detailedLogs ? LogHelper.getDetailedLog(rawMessage) : rawMessage;
 
         if (throwable == null) {
             simpleLog(severity, tag, message);
@@ -38,11 +47,11 @@ public class SystemOutLog extends SeverityLogChild {
     }
 
     private static void simpleLog(int severity, String tag, String message) {
-        println("%s - %s - %s - %s", getCurrentDateTime(), Severity.getLabel(severity), tag, LogHelper.getDetailedLog(message));
+        println("%s - %s - %s - %s", getCurrentDateTime(), Severity.getLabel(severity), tag, message);
     }
 
     private static void logWithStackTrace(int severity, String tag, String message, String stackTrace) {
-        println("%s - %s - %s - %s\n%s", getCurrentDateTime(), Severity.getLabel(severity), tag, LogHelper.getDetailedLog(message), stackTrace);
+        println("%s - %s - %s - %s\n%s", getCurrentDateTime(), Severity.getLabel(severity), tag, message, stackTrace);
     }
 
     /**
@@ -55,14 +64,10 @@ public class SystemOutLog extends SeverityLogChild {
     /**
      * Formats data, prints into the "standard" output stream and then terminate the line.
      */
-    private static void println(String format, Object... args) {
-        println(String.format(format, args));
-    }
+    private static void println(String format, Object... args) { println(String.format(format, args)); }
 
     /**
      * Formats data, prints into the "standard" output stream and then terminate the line.
      */
-    private static String getCurrentDateTime() {
-        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-    }
+    private static String getCurrentDateTime() { return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME); }
 }

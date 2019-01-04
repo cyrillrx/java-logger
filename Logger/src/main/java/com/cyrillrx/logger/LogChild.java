@@ -31,9 +31,7 @@ public abstract class LogChild {
         }
     }
 
-    protected boolean shouldLog(int severity, String tag, String message, Throwable throwable) {
-        return true;
-    }
+    protected boolean shouldLog(int severity, String tag, String message, Throwable throwable) { return true; }
 
     /**
      * @param severity  The severity level. See {@link Severity}
