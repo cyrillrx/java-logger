@@ -15,7 +15,7 @@ allprojects {
     }
 
     project.ext {
-        loggerVersion = '1.5.1'
+        loggerVersion = '1.6.0'
         trackerVersion = '0.8.2'
     }
 }
