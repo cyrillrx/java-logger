@@ -1,6 +1,5 @@
 package com.cyrillrx.tracker.consumer;
 
-import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 import com.cyrillrx.tracker.utils.Utils;
 
@@ -13,31 +12,21 @@ import java.util.concurrent.TimeUnit;
  * @author Cyril Leroux
  *         Created on 21/04/16.
  */
-public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
+public abstract class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
 
     private TimeUnit timeUnit;
     private long timeDuration;
 
-    public ScheduledConsumer(TrackerChild tracker, Queue<TrackEvent> queue, TimeUnit unit, long duration) {
-        super(tracker, queue);
+    public ScheduledConsumer(Queue<TrackEvent> queue, TimeUnit unit, long duration) {
+        super(queue);
         timeUnit = unit;
         timeDuration = duration;
-    }
-
-    @Override
-    public void run() {
-
-        running = true;
-        while (running) {
-            consume();
-            Utils.wait(timeDuration, timeUnit);
-        }
     }
 
     protected void consume() {
 
         // Events to be sent
-        final List<TrackEvent> eventBucket = new ArrayList<>();
+        final List<TrackEvent> pendingEvents = new ArrayList<>();
 
         TrackEvent event;
         while (!events.isEmpty()) {
@@ -48,21 +37,21 @@ public class ScheduledConsumer extends EventConsumer<Queue<TrackEvent>> {
                 running = false;
                 break;
             }
-            eventBucket.add(event);
+            pendingEvents.add(event);
         }
 
         try {
-            doConsume(eventBucket);
+            doConsume(pendingEvents);
 
         } catch (Exception e) {
 
             // Retry policy
             // TODO log warning
-            events.addAll(eventBucket);
+            events.addAll(pendingEvents);
         }
+
+        Utils.wait(timeDuration, timeUnit);
     }
 
-    private synchronized void doConsume(List<TrackEvent> events) {
-        tracker.track(events);
-    }
+    protected abstract void doConsume(List<TrackEvent> events);
 }

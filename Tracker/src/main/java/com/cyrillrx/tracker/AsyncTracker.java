@@ -12,22 +12,16 @@ import java.util.concurrent.Executors;
  * @author Cyril Leroux
  *         Created on 19/04/16.
  */
-public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
-        extends TrackWrapper {
+public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>> extends TrackerChild {
 
     private static final String TAG = AsyncTracker.class.getSimpleName();
 
     private static final String THREAD_PREFIX = TAG + "_";
     protected static final int DEFAULT_WORKER_COUNT = 1;
 
-    protected EventQueue queue;
+    protected EventQueue pendingEvents;
 
-    public AsyncTracker(TrackerChild tracker, EventQueue queue, TrackFilter filter) {
-        super(tracker, filter);
-        this.queue = queue;
-    }
-
-    public AsyncTracker(TrackerChild tracker, EventQueue queue) { this(tracker, queue, null); }
+    public AsyncTracker(EventQueue queue) { pendingEvents = queue; }
 
     /**
      * Adds the event to the queue where it will be consume.
@@ -35,13 +29,12 @@ public abstract class AsyncTracker<EventQueue extends Queue<TrackEvent>>
      * @param event The event to add to the queue.
      */
     @Override
-    protected void doTrack(TrackEvent event) { queue.add(event); }
+    protected void doTrack(TrackEvent event) { pendingEvents.add(event); }
 
-    /**
-     * Starts the event queue consumers.
-     *
-     * @param workerCount
-     */
+    /** Starts the pending events consumer(s). */
+    protected void start() { start(DEFAULT_WORKER_COUNT); }
+
+    /** Starts the pending events consumer(s). */
     protected void start(int workerCount) {
 
         final int processorCount = Runtime.getRuntime().availableProcessors();

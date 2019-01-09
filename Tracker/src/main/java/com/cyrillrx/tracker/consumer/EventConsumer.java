@@ -1,6 +1,5 @@
 package com.cyrillrx.tracker.consumer;
 
-import com.cyrillrx.tracker.TrackerChild;
 import com.cyrillrx.tracker.event.TrackEvent;
 
 import java.util.Collection;
@@ -16,13 +15,17 @@ public abstract class EventConsumer<EventContainer extends Collection<TrackEvent
             .setCategory("STOP_EVENT")
             .build();
 
-    protected final TrackerChild tracker;
     protected final EventContainer events;
     protected boolean running;
 
-    public EventConsumer(TrackerChild tracker, EventContainer events) {
-        this.tracker = tracker;
-        this.events = events;
+    public EventConsumer(EventContainer events) { this.events = events; }
+
+    @Override
+    public void run() {
+        running = true;
+        while (running) {
+            consume();
+        }
     }
 
     protected abstract void consume();

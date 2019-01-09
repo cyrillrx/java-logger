@@ -23,87 +23,75 @@ public class ScheduledTrackerTest {
 
         System.out.println("Test started");
 
-        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
-        final ScheduledTracker tracker = new ScheduledTracker.Builder()
-                .setNestedTracker(nestedTracker)
-                .setInterval(INTERVAL, UNIT)
-                .build();
+        final DummyScheduledTracker tracker = new DummyScheduledTracker(INTERVAL, UNIT);
 
         // Wait until the tracker actually starts tracking
         TestUtils.wait100Millis();
 
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Track one event
         tracker.track(TestUtils.createFakeEvent(TestUtils.EVENT_CATEGORY));
 
         // Assert emptiness
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Wait enough time for the events to be consumed
         Utils.wait(INTERVAL, UNIT);
 
         // Assert that the event was sent
-        Assert.assertEquals("Should be 1", 1, nestedTracker.getEventCount());
+        Assert.assertEquals("Should be 1", 1, tracker.getEventCount());
 
-        final List<TrackEvent> trackedEvents = nestedTracker.events;
+        final List<TrackEvent> trackedEvents = tracker.trackedEvents;
         for (TrackEvent event : trackedEvents) {
-            Assert.assertTrue("Category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY.equals(event.getCategory()));
+            Assert.assertEquals("Category " + TestUtils.EVENT_CATEGORY, TestUtils.EVENT_CATEGORY, event.getCategory());
         }
     }
 
     @Test
     public void testOneByOne() {
 
-        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
-        final ScheduledTracker tracker = new ScheduledTracker.Builder()
-                .setNestedTracker(nestedTracker)
-                .setInterval(INTERVAL, UNIT)
-                .build();
+        final DummyScheduledTracker tracker = new DummyScheduledTracker(INTERVAL, UNIT);
 
         // Wait until the tracker actually starts tracking
         TestUtils.wait100Millis();
 
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Track EVENT_COUNT events
         TestUtils.trackEventsOneByOne(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
 
         // Assert emptiness
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Wait enough time for the events to be consumed
         Utils.wait(INTERVAL, UNIT);
 
         // Assert that the events were sent
-        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, nestedTracker.getEventCount());
+        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, tracker.getEventCount());
     }
 
     @Test
     public void testBatch() {
 
-        final DummyTrackerTracker nestedTracker = new DummyTrackerTracker();
-        final ScheduledTracker tracker = new ScheduledTracker.Builder()
-                .setNestedTracker(nestedTracker)
-                .setInterval(INTERVAL, UNIT)
-                .build();
+        final DummyScheduledTracker tracker = new DummyScheduledTracker(INTERVAL, UNIT);
 
         // Wait until the tracker actually starts tracking
         TestUtils.wait100Millis();
 
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Track EVENT_COUNT events
         TestUtils.trackEventsBatch(tracker, EVENT_COUNT, TestUtils.EVENT_CATEGORY);
 
         // Assert emptiness
-        Assert.assertTrue("Should be empty", nestedTracker.isEmpty());
+        Assert.assertTrue("Should be empty", tracker.isEmpty());
 
         // Wait enough time for the events to be consumed
         Utils.wait(INTERVAL, UNIT);
 
         // Assert that the events were sent
-        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, nestedTracker.getEventCount());
+        Assert.assertEquals("Should be " + EVENT_COUNT, EVENT_COUNT, tracker.getEventCount());
     }
 
 }
