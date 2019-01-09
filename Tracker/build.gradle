@@ -20,7 +20,6 @@ test {
     }
 }
 
-
 publish {
     userOrg = 'cyrillrx'
     groupId = 'com.cyrillrx'

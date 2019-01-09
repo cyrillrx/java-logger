@@ -5,7 +5,7 @@ import com.cyrillrx.tracker.event.TrackEvent;
 import java.util.Collection;
 
 /**
- * A basic tracker aware of the filter to apply.<br />
+ * A basic tracker aware of the filter to apply.<br>
  * By default, all events are tracked.
  *
  * @author Cyril Leroux

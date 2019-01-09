@@ -1,5 +1,10 @@
 LRX Tracker Release Notes
 
+2019-01-09 - v0.9.0
+- Changed TrackerChild interface into an abstract class
+- Merged TrackerChild and TrackWrapper
+- Deleted TrackFilter
+
 2018-06-28 - v0.8.1
 - Made EventBuilder.putCustomAttributes accept any Map<String, T>
 
