@@ -10,8 +10,8 @@ public class LogHelper {
     private static final String LOGGER_CLASS_NAME = Logger.class.getName();
 
     /**
-     * The ISO-like date-time formatter that formats or parses a date-time with
-     * offset and zone, such as '2011-12-03T10:15:30+01:00[Europe/Paris]'
+     * @return The ISO-like date-time formatter that formats or parses a date-time with
+     *         offset and zone, such as '2011-12-03T10:15:30+01:00[Europe/Paris]'
      */
     public static String getCurrentDateTime() { return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME); }
 
@@ -69,7 +69,10 @@ public class LogHelper {
         return String.format("(%s:%d)", trace.getFileName(), trace.getLineNumber());
     }
 
-    /** @return The Stack trace as a String. */
+    /**
+     * @param t The {@link Throwable} from which to extract the stack trace.
+     * @return The stack trace as a {@link String}.
+     */
     public static String getStackTrace(Throwable t) {
 
         try (final StringWriter sw = new StringWriter();
