@@ -1,5 +1,9 @@
 LRX Logger Release Notes
 
+2019-01-15 - v1.6.1
+- Moved code from SystemOutLog.java to LogHelper.java
+- Changed getDetailedLog() to print the linkableMethod on the same line as the message
+
 2019-01-04 - v1.6.0
 - Created a LogHelper to build linkable log traces
 - Changed LogChild interface into an abstract class
