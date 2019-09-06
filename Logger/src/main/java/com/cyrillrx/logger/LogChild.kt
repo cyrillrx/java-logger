@@ -1,10 +1,10 @@
-package com.cyrillrx.logger;
+package com.cyrillrx.logger
 
 /**
  * @author Cyril Leroux
  *         Created on 18/10/2015.
  */
-public abstract class LogChild {
+abstract class LogChild {
 
     /**
      * @param severity  The severity level. See {@link Severity}
@@ -13,9 +13,9 @@ public abstract class LogChild {
      * @param message   The message you would like to log.
      * @param throwable An exception to log. Might be null.
      */
-    public void log(int severity, String tag, String message, Throwable throwable) {
+    fun log(severity: Int, tag: String, message: String, throwable: Throwable? = null) {
         if (shouldLog(severity, tag, message, throwable)) {
-            doLog(severity, tag, message, throwable);
+            doLog(severity, tag, message, throwable)
         }
     }
 
@@ -25,13 +25,13 @@ public abstract class LogChild {
      *                 It usually identifies the class or activity where the log call occurs.
      * @param message  The message you would like to log.
      */
-    public void log(int severity, String tag, String message) {
-        if (shouldLog(severity, tag, message, null)) {
-            doLog(severity, tag, message, null);
+    fun log(severity: Int, tag: String, message: String) {
+        if (shouldLog(severity, tag, message)) {
+            doLog(severity, tag, message)
         }
     }
 
-    protected boolean shouldLog(int severity, String tag, String message, Throwable throwable) { return true; }
+    protected open fun shouldLog(severity: Int, tag: String, message: String, throwable: Throwable? = null): Boolean = true
 
     /**
      * @param severity  The severity level. See {@link Severity}
@@ -40,5 +40,5 @@ public abstract class LogChild {
      * @param message   The message you would like to log.
      * @param throwable An exception to log. Might be null.
      */
-    protected abstract void doLog(int severity, String tag, String message, Throwable throwable);
+    protected abstract fun doLog(severity: Int, tag: String, message: String, throwable: Throwable? = null)
 }
