@@ -1,11 +1,26 @@
-apply plugin: 'java'
-apply plugin: 'bintray-release'
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id 'bintray-release'
+}
 
 targetCompatibility = '1.8'
 sourceCompatibility = '1.8'
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testImplementation 'junit:junit:4.12'
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 test {
@@ -16,10 +31,10 @@ test {
 }
 
 publish {
-    userOrg = 'cyrillrx'
-    groupId = 'com.cyrillrx'
+    userOrg = project.ext.moduleOrg
+    groupId = project.ext.moduleGroupId
+    website = project.ext.moduleWebsite
     artifactId = 'logger'
     publishVersion = project.ext.loggerVersion
     desc = 'A modular logger component in java.'
-    website = 'https://github.com/cyrillrx/java_logger'
 }
