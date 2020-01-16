@@ -12,22 +12,22 @@ import com.cyrillrx.logger.SeverityLogChild
  */
 class SystemOutLog(severity: Int, private val detailedLogs: Boolean = false) : SeverityLogChild(severity) {
 
-    override fun doLog(severity: Int, tag: String, rawMessage: String, throwable: Throwable?) {
+    override fun doLog(severity: Int, tag: String, message: String, throwable: Throwable?) {
 
-        val message = if (detailedLogs) LogHelper.getDetailedLog(rawMessage) else rawMessage
+        val finalMessage = if (detailedLogs) LogHelper.getDetailedLog(message) else message
 
         if (throwable == null) {
-            simpleLog(severity, tag, message)
+            simpleLog(severity, tag, finalMessage)
             return
         }
 
         val stackTrace = LogHelper.getStackTrace(throwable)
         if (stackTrace == null) {
-            simpleLog(severity, tag, message)
+            simpleLog(severity, tag, finalMessage)
             return
         }
 
-        logWithStackTrace(severity, tag, message, stackTrace)
+        logWithStackTrace(severity, tag, finalMessage, stackTrace)
     }
 
     private fun simpleLog(severity: Int, tag: String, message: String) {

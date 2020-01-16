@@ -2,7 +2,7 @@ package com.cyrillrx.logger;
 
 /**
  * @author Cyril Leroux
- *         Created on 20/10/15
+ *         Created on 20/10/2015.
  */
 public class Severity {
 

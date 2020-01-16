@@ -10,7 +10,7 @@ import org.junit.Test
 
 /**
  * @author Cyril Leroux
- * Created on 03/05/16.
+ *         Created on 03/05/2016.
  */
 class SystemOutLogTest {
 

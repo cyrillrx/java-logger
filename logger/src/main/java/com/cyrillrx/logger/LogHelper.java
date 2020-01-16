@@ -5,6 +5,10 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * @author Cyril Leroux
+ *         Created on 03/01/2019.
+ */
 public class LogHelper {
 
     private static final String LOGGER_CLASS_NAME = Logger.class.getName();
@@ -13,7 +17,9 @@ public class LogHelper {
      * @return The ISO-like date-time formatter that formats or parses a date-time with
      *         offset and zone, such as '2011-12-03T10:15:30+01:00[Europe/Paris]'
      */
-    public static String getCurrentDateTime() { return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME); }
+    private static String getCurrentDateTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+    }
 
     public static String simpleLog(int severity, String tag, String message) {
         return String.format("%s - %s - %s - %s", getCurrentDateTime(), Severity.getLabel(severity), tag, message);
@@ -31,7 +37,7 @@ public class LogHelper {
         final StringBuilder sb = new StringBuilder();
         sb.append(message);
 
-        sb.append(" - ");
+        sb.append("\nDetails: ");
 
         boolean lastWasLoggerClass = false;
 

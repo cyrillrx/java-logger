@@ -1,5 +1,8 @@
 package com.cyrillrx.logger;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +11,7 @@ import java.util.Set;
  * It allows to customize the logging conditions.
  *
  * @author Cyril Leroux
- *         Created on 03/09/12
+ *         Created on 03/09/2012.
  */
 @SuppressWarnings("unused")
 public class Logger {
@@ -20,6 +23,7 @@ public class Logger {
 
     private final Set<LogChild> loggers;
 
+    @Nullable
     private ExceptionCatcher catcher;
 
     protected Logger() { loggers = new HashSet<>(); }
@@ -32,94 +36,98 @@ public class Logger {
 
     public static void release() { instance = null; }
 
-    public static synchronized ExceptionCatcher setCatcher(ExceptionCatcher catcher) {
+    public static synchronized ExceptionCatcher setCatcher(@NotNull ExceptionCatcher catcher) {
         checkInitialized();
 
         return instance.catcher = catcher;
     }
 
-    public static synchronized void addChild(LogChild child) {
+    public static synchronized void addChild(@NotNull LogChild child) {
         checkInitialized();
 
         instance.loggers.add(child);
     }
 
-    public static synchronized void removeChild(LogChild child) {
+    public static synchronized void removeChild(@NotNull LogChild child) {
         checkInitialized();
 
         instance.loggers.remove(child);
     }
 
-    public static synchronized void log(int severity, String tag, String message, Throwable throwable) {
+    public static synchronized void log(int severity, String tag, @NotNull String message, @NotNull Throwable throwable) {
         checkInitialized();
 
         for (LogChild logger : instance.loggers) {
             try {
                 logger.log(severity, tag, message, throwable);
             } catch (Throwable t) {
-                try {
-                    instance.catcher.catchException(t);
-                } catch (Exception ignored) {
-                    // Prevent the catcher from throwing an exception
-                }
+                gracefulCatch(t);
             }
         }
     }
 
-    public static synchronized void log(int severity, String tag, String message) {
+    public static synchronized void log(int severity, @NotNull String tag, @NotNull String message) {
         checkInitialized();
 
         for (LogChild logger : instance.loggers) {
             try {
                 logger.log(severity, tag, message, null);
             } catch (Throwable t) {
-                try {
-                    instance.catcher.catchException(t);
-                } catch (Exception ignored) {
-                    // Prevent the catcher from throwing an exception
-                }
+                gracefulCatch(t);
             }
         }
     }
 
-    public static synchronized void verbose(String tag, String message, Throwable throwable) {
+    private static void gracefulCatch(@NotNull Throwable t) {
+
+        final ExceptionCatcher catcher = instance.catcher;
+        if (catcher == null) { return; }
+
+        try {
+            catcher.catchException(t);
+        } catch (Exception ignored) {
+            // Prevent the catcher from throwing an exception
+        }
+    }
+
+    public static synchronized void verbose(@NotNull String tag, @NotNull String message, @NotNull Throwable throwable) {
         log(Severity.VERBOSE, tag, message, throwable);
     }
 
-    public static synchronized void verbose(String tag, String message) {
-        log(Severity.VERBOSE, tag, message, null);
+    public static synchronized void verbose(@NotNull String tag, @NotNull String message) {
+        log(Severity.VERBOSE, tag, message);
     }
 
-    public static synchronized void debug(String tag, String message, Throwable throwable) {
+    public static synchronized void debug(@NotNull String tag, @NotNull String message, @NotNull Throwable throwable) {
         log(Severity.DEBUG, tag, message, throwable);
     }
 
-    public static synchronized void debug(String tag, String message) {
-        log(Severity.DEBUG, tag, message, null);
+    public static synchronized void debug(@NotNull String tag, @NotNull String message) {
+        log(Severity.DEBUG, tag, message);
     }
 
-    public static synchronized void info(String tag, String message, Throwable throwable) {
+    public static synchronized void info(@NotNull String tag, @NotNull String message, @NotNull Throwable throwable) {
         log(Severity.INFO, tag, message, throwable);
     }
 
-    public static synchronized void info(String tag, String message) {
-        log(Severity.INFO, tag, message, null);
+    public static synchronized void info(@NotNull String tag, @NotNull String message) {
+        log(Severity.INFO, tag, message);
     }
 
-    public static synchronized void warning(String tag, String message, Throwable throwable) {
+    public static synchronized void warning(@NotNull String tag, @NotNull String message, @NotNull Throwable throwable) {
         log(Severity.WARN, tag, message, throwable);
     }
 
-    public static synchronized void warning(String tag, String message) {
-        log(Severity.WARN, tag, message, null);
+    public static synchronized void warning(@NotNull String tag, @NotNull String message) {
+        log(Severity.WARN, tag, message);
     }
 
-    public static synchronized void error(String tag, String message, Throwable throwable) {
+    public static synchronized void error(@NotNull String tag, @NotNull String message, @NotNull Throwable throwable) {
         log(Severity.ERROR, tag, message, throwable);
     }
 
-    public static synchronized void error(String tag, String message) {
-        log(Severity.ERROR, tag, message, null);
+    public static synchronized void error(@NotNull String tag, @NotNull String message) {
+        log(Severity.ERROR, tag, message);
     }
 
     /**
@@ -142,7 +150,4 @@ public class Logger {
         }
     }
 
-    public interface ExceptionCatcher {
-        void catchException(Throwable t);
-    }
 }
