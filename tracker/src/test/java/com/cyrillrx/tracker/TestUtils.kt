@@ -13,7 +13,7 @@ import kotlin.random.Random
 
 /**
  * @author Cyril Leroux
- * Created on 25/04/2016.
+ *         Created on 25/04/2016.
  */
 object TestUtils {
 

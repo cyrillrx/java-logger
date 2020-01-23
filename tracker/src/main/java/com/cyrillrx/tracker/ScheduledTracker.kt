@@ -14,7 +14,7 @@ abstract class ScheduledTracker(private val timeDuration: Long, private val time
     AsyncTracker<Queue<TrackEvent>>(ArrayDeque<TrackEvent>()) {
 
     override fun startConsuming() {
-        val eventConsumer = object : ScheduledConsumer(pendingEvents, timeDuration, timeUnit) {
+        val eventConsumer = object : ScheduledConsumer(pendingEvents, timeDuration) {
             override fun doConsume(events: List<TrackEvent>) {
                 consumeEvents(events)
             }

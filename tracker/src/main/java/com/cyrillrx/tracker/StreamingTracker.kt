@@ -51,7 +51,7 @@ abstract class StreamingTracker(
 
         // Set the retry consumer
         val retryQueueConsumer =
-            object : ScheduledConsumer(retryParams.queue, retryParams.intervalValue, retryParams.intervalUnit) {
+            object : ScheduledConsumer(retryParams.queue, retryParams.intervalValue) {
                 override fun doConsume(events: List<TrackEvent>) {
                     pendingEvents.addAll(events)
                 }

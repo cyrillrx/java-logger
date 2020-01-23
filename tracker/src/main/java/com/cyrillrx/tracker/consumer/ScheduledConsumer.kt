@@ -2,50 +2,57 @@ package com.cyrillrx.tracker.consumer
 
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.tracker.event.TrackEvent
-import com.cyrillrx.tracker.utils.waitFor
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import java.util.ArrayList
-import java.util.Queue
-import java.util.concurrent.TimeUnit
 
 /**
  * @author Cyril Leroux
  *         Created on 21/04/2016.
  */
 abstract class ScheduledConsumer(
-    queue: Queue<TrackEvent>,
-    private val timeDuration: Long,
-    private val timeUnit: TimeUnit
-) : EventConsumer<Queue<TrackEvent>>(queue) {
+    pendingEvents: Channel<TrackEvent>,
+    private val intervalMillis: Long
+) :
+    EventConsumer(pendingEvents) {
 
-    override fun consume() {
+    override suspend fun consume() {
 
-        // Events to be sent
-        val pendingEvents: MutableList<TrackEvent> = ArrayList()
+        val eventBatch = events.getAsBatch()
+
+        try {
+            doConsume(eventBatch)
+
+        } catch (cause: Exception) {
+            Logger.info(TAG, "Error while consuming. Re-injecting events the event queue.", cause)
+            eventBatch.forEach { events.send(it) }
+        }
+
+        delay(intervalMillis)
+    }
+
+    protected abstract fun doConsume(events: List<TrackEvent>)
+
+    private fun Channel<TrackEvent>.getAsBatch(): ArrayList<TrackEvent> {
+
+        val eventBatch = ArrayList<TrackEvent>()
 
         var event: TrackEvent
 
-        while (!events.isEmpty()) {
-            event = events.poll() ?: break
+        while (!isEmpty) {
+
+            event = poll() ?: break
 
             // If stop received, stop the batch and send pending events
             if (event == STOP_EVENT) {
                 running = false
                 break
             }
-            pendingEvents.add(event)
+            eventBatch.add(event)
         }
 
-        try {
-            doConsume(pendingEvents)
-        } catch (cause: Exception) {
-            Logger.info(TAG, "Error while consuming. Re-injecting events the event queue.", cause)
-            events.addAll(pendingEvents)
-        }
-
-        waitFor(timeDuration, timeUnit)
+        return eventBatch
     }
-
-    protected abstract fun doConsume(events: List<TrackEvent>)
 
     companion object {
         private val TAG = ScheduledConsumer::class.java.simpleName

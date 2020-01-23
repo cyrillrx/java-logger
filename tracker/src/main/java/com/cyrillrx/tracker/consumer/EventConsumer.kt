@@ -5,6 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
 import java.util.Queue
 
@@ -12,7 +14,7 @@ import java.util.Queue
  * @author Cyril Leroux
  *         Created on 20/04/2016.
  */
-abstract class EventConsumer<EventQueue : Queue<TrackEvent>>(protected val events: EventQueue) {
+abstract class EventConsumer(protected val events: Channel<TrackEvent>) {
 
     val coroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
@@ -22,14 +24,13 @@ abstract class EventConsumer<EventQueue : Queue<TrackEvent>>(protected val event
 
     fun start(): Job = currentJob ?: startNewJob().also { currentJob = it }
 
-    fun stop(): Boolean {
+    suspend fun stop(): Boolean {
 
         if (!running) return false
         val job = currentJob ?: return false
         if (job.isCancelled || job.isCompleted) return false
 
-
-        events.add(STOP_EVENT)
+        events.send(STOP_EVENT)
 
         return true
     }
@@ -41,7 +42,7 @@ abstract class EventConsumer<EventQueue : Queue<TrackEvent>>(protected val event
         }
     }
 
-    protected abstract fun consume()
+    protected abstract suspend fun consume()
 
     companion object {
 

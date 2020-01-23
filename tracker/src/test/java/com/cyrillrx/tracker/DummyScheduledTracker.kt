@@ -22,5 +22,4 @@ internal class DummyScheduledTracker(intervalMillis: Long) : ScheduledTracker(in
     fun isEmpty(): Boolean = trackedEvents.isEmpty()
 
     fun getEventCount(): Int = trackedEvents.size
-
 }

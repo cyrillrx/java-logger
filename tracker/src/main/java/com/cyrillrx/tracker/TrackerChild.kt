@@ -11,13 +11,13 @@ import com.cyrillrx.tracker.event.TrackEvent
  */
 abstract class TrackerChild {
 
-    fun track(event: TrackEvent) {
+    suspend fun track(event: TrackEvent) {
         if (shouldTrack(event)) {
             doTrack(event)
         }
     }
 
-    fun track(events: Collection<TrackEvent>) {
+    suspend fun track(events: Collection<TrackEvent>) {
         for (event in events) {
             track(event)
         }
@@ -25,5 +25,5 @@ abstract class TrackerChild {
 
     protected fun shouldTrack(@Suppress("UNUSED_PARAMETER") event: TrackEvent): Boolean = true
 
-    protected abstract fun doTrack(event: TrackEvent)
+    protected abstract suspend fun doTrack(event: TrackEvent)
 }

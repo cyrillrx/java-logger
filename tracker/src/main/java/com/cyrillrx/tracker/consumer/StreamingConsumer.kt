@@ -2,18 +2,18 @@ package com.cyrillrx.tracker.consumer
 
 import com.cyrillrx.logger.Logger
 import com.cyrillrx.tracker.event.TrackEvent
-import java.util.concurrent.BlockingQueue
+import kotlinx.coroutines.channels.Channel
 
 /**
  * @author Cyril Leroux
  *         Created on 20/04/2016.
  */
-abstract class StreamingConsumer(queue: BlockingQueue<TrackEvent>) : EventConsumer<BlockingQueue<TrackEvent>>(queue) {
+abstract class StreamingConsumer(events: Channel<TrackEvent>) : EventConsumer(events) {
 
-    override fun consume() {
+    override suspend fun consume() {
 
         try {
-            val event = events.take()
+            val event = events.receive()
             if (event == STOP_EVENT) {
                 running = false
             }
