@@ -16,9 +16,8 @@
 *.class
 
 # generated files
-bin/
-gen/
 build/
+out/
 
 # NDK generated files
 obj/
