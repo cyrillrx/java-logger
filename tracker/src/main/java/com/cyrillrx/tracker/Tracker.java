@@ -11,7 +11,7 @@ import java.util.Set;
  * It allows to customize the tracking conditions.
  *
  * @author Cyril Leroux
- *         Created on 17/04/2015
+ *         Created on 17/04/2015.
  */
 @SuppressWarnings("unused")
 public class Tracker {
@@ -73,6 +73,7 @@ public class Tracker {
         checkInitialized();
 
         event.setContext(instance.context);
+        event.updateSentAt();
 
         for (TrackerChild tracker : instance.trackers) {
             try {
