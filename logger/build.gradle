@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'org.jetbrains.kotlin.jvm'
-    id 'bintray-release'
 }
 
 targetCompatibility = '1.8'
@@ -28,13 +27,4 @@ test {
         showStandardStreams = true
         exceptionFormat = 'full'
     }
-}
-
-publish {
-    userOrg = project.ext.moduleOrg
-    groupId = project.ext.moduleGroupId
-    website = project.ext.moduleWebsite
-    artifactId = 'logger'
-    publishVersion = project.ext.loggerVersion
-    desc = 'A modular logger component in java.'
 }
