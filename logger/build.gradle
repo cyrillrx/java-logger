@@ -3,9 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
-targetCompatibility = '1.8'
-sourceCompatibility = '1.8'
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testImplementation 'junit:junit:4.12'
